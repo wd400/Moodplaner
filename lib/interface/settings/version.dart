@@ -1,9 +1,7 @@
-import 'dart:convert' as convert;
-import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
 import 'package:moodplaner/constants/language.dart';
 import 'package:moodplaner/interface/settings/settings.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 
 import '../../main.dart';

@@ -2,13 +2,12 @@ import 'dart:io';
 import 'dart:convert' as convert;
 import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:moodplaner/core/synchronization.dart';
 import 'package:moodplaner/utils/methods.dart';
 import 'package:path/path.dart' as path;
-import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:http/http.dart' as http;
 import '../login.dart';
 import 'mediatype.dart';
-import 'metrictype.dart';
 
 import 'package:hive/hive.dart';
 
@@ -83,14 +82,14 @@ class Collection extends ChangeNotifier {
 
     List<MediaType> result = <MediaType>[];
 
-    final tracksBox = await Hive.box<Track>('tracks');
+    final tracksBox = Hive.box<Track>('tracks');
    for (Track track in tracksBox.values) {
         if (track.getName().toLowerCase().contains(query.toLowerCase())) {
           result.add(track);
         }
 
     }
-
+print(result);
     return result;
   }
 
@@ -98,10 +97,13 @@ class Collection extends ChangeNotifier {
     if (query == '') return <MediaType>[];
 
 
-    var res = await http.get( Uri.parse( '$SERVER_IP/ping'),   headers: {"Authorization": (await storage.read(key: "token"))!});
+    var res = await http.post( Uri.parse( '$SERVER_IP/search'), body:{'query':query},  headers: {"token": (await storage.read(key: "token"))??''});
     if (res.statusCode==200){
-      return convert.jsonDecode(res.body).map((e)=>Track.fromMap(e)).toList();
+      print("iiiiiici");
+      Box<Track> tracksBox=Hive.box<Track>('tracks');
+      return convert.jsonDecode(res.body).map<Track>((e)=> tracksBox.get( e['hash'])?? Track(hash:e['hash'],trackName: e['title'], todel: false)).toList();
     }
+    //TODO: search
     return <MediaType>[];
   }
 
@@ -131,8 +133,8 @@ class Collection extends ChangeNotifier {
   }
 
   Future<void> delete(Track track) async {
-    final tracksBox = await Hive.box<Track>('tracks');
-    final playlistsBox = await Hive.box<Playlist>('playlists');
+    final tracksBox = Hive.box<Track>('tracks');
+    final playlistsBox = Hive.box<Playlist>('playlists');
 
     (track..todel=true).save();
 
@@ -175,7 +177,7 @@ class Collection extends ChangeNotifier {
  //     if (collectionDirectoryContent.length != this._tracks.length) {
         for (int index = 0; index < collectionDirectoryContent.length; index++) {
           File file = collectionDirectoryContent[index];
-          print(file);
+
             await this.add(
               file: file,
             );
@@ -184,7 +186,11 @@ class Collection extends ChangeNotifier {
      // }
       onProgress?.call(collectionDirectoryContent.length, collectionDirectoryContent.length, true);
    // }
-
+    if (await storage.read(key: "token")!=null) {
+      syncTracks();
+      syncPlaylists();
+      syncGenerators();
+    }
     this.notifyListeners();
   }
 
@@ -206,14 +212,14 @@ class Collection extends ChangeNotifier {
   }
 
   Future<void> playlistAdd(Playlist playlist) async {
-    final playlistsBox = await Hive.box<Playlist>('playlists');
+    final playlistsBox = Hive.box<Playlist>('playlists');
       playlistsBox.add(playlist);
     playlistsBox.close();
     this.notifyListeners();
   }
 
   Future<void> playlistRemove(int playlistIdx) async {
-    final playlistsBox = await Hive.box<Track>('tracks');
+    final playlistsBox = Hive.box<Track>('tracks');
     playlistsBox.deleteAt(playlistIdx);
   playlistsBox.close();
     this.notifyListeners();
@@ -222,12 +228,13 @@ class Collection extends ChangeNotifier {
   Future<void> playlistAddTrack(Playlist playlist, Track track) async {
 
     playlist.tracks.add(track);
+    playlist.lastModif=DateTime.now();
   }
 
   Future<void> playlistRemoveTrack(Playlist playlist, Track track) async {
 
-    final tracksBox = await Hive.box<Track>('tracks');
-    final playlistsBox = await Hive.box<Playlist>('playlists');
+    final tracksBox = Hive.box<Track>('tracks');
+    final playlistsBox = Hive.box<Playlist>('playlists');
     playlist.tracks.removeWhere((item) => item.hash == track.hash);
     playlist.lastModif=DateTime.now();
 
@@ -245,14 +252,14 @@ class Collection extends ChangeNotifier {
 
 
   Future<void> generatorAdd(Generator generator) async {
-    final generatorsBox = await Hive.box<Generator>('generators');
+    final generatorsBox = Hive.box<Generator>('generators');
     generatorsBox.put(generator.generatorId,generator);
 //TODO: add date?+ try sync
     this.notifyListeners();
   }
 
   Future<void> generatorRemove(Generator generator) async {
-    (generator..todel=true).save();
+    (generator..todel=true..lastModif=DateTime.now()).save();
     this.notifyListeners();
   }
 

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moodplaner/core/metrictype.dart';
@@ -24,7 +25,12 @@ class _ChipDemoState extends State<ChipWidget> {
         scrollDirection: Axis.horizontal,
         itemCount: graphData.generator.measures.length,
         itemBuilder: (BuildContext context, int index) {
+
           int key = graphData.generator.measures.keys.elementAt(index);
+          if (graphData.generator.measures.length==1){
+            _choiceIndex=0;
+            context.read(currentMetricIdProvider).metricId=key;
+          }
           return InputChip(
             selected: _choiceIndex == index,
             padding: EdgeInsets.all(2.0),
@@ -37,11 +43,7 @@ class _ChipDemoState extends State<ChipWidget> {
             onSelected: (bool selected) {
               setState(() {
                 _choiceIndex = selected ? index : null;
-                print("NEW KEY");
-                print(key);
                 context.read(currentMetricIdProvider).update(metricId: selected?key:null);
-                print("SET KEY");
-                print(context.read(currentMetricIdProvider).metricId);
               });
             },
             onDeleted: () {

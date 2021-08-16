@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:moodplaner/core/playback.dart';
@@ -15,23 +16,16 @@ const _methodChannel = const MethodChannel('com.alexmercerind.harmonoid/openFile
 
 class FileIntent {
   int? tabIndex;
-  File? openedFile;
+  Track? openedTrack;
 
-  FileIntent({this.tabIndex, this.openedFile});
+  FileIntent({this.tabIndex, this.openedTrack});
 
   static Future<void> init() async {
-    try {
-      File file = await FileIntent._getOpenFile();
-      fileIntent = new FileIntent(
-        tabIndex: 0,
-        openedFile: file,
-      );
-    }
-    catch(exception) {
+
       fileIntent = new FileIntent(
         tabIndex: 1,
       );
-    }
+
   }
 
   static Future<File> _getOpenFile() async {
@@ -43,16 +37,25 @@ class FileIntent {
   }
 
   Future<void> play() async {
-    MetadataRetriever retriever = new MetadataRetriever();
-    await retriever.setFile(this.openedFile!);
-    Track track = Track.fromMap((await retriever.metadata).toMap())!;
-    track.trackName = path.basename(this.openedFile!.path).split('.').first;
+    /*
+    !kIsWeb
 
-    track.filePath = this.openedFile!.path;
+      MetadataRetriever retriever = new MetadataRetriever();
+      await retriever.setFile(this.openedFile!);
+      Track track = Track.fromMap((await retriever.metadata).toMap())!;
+      track.trackName = path
+          .basename(this.openedFile!.path)
+          .split('.')
+          .first;
 
-    Playback.play(
-      tracks: <Track>[track],
-      index: 0,
-    );
+      track.filePath = this.openedFile!.path;
+
+     */
+    if (this.openedTrack != null) {
+      Playback.play(
+        tracks: <Track>[this.openedTrack!],
+        index: 0,
+      );
+    }
   }
 }

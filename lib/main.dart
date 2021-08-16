@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
 import 'package:hive/hive.dart';
+import "package:hive_flutter/hive_flutter.dart" ;
 import 'package:moodplaner/utils/methods.dart';
 import 'package:path_provider/path_provider.dart';
+
 
 import 'constants/language.dart';
 import 'core/collection.dart';
@@ -13,7 +14,8 @@ import 'core/configuration.dart';
 import 'core/download.dart';
 import 'core/fileintent.dart';
 import 'core/mediatype.dart';
-import 'interface/harmonoid.dart';
+import 'interface/moodplaner.dart';
+import 'login.dart';
 
 
 
@@ -40,6 +42,8 @@ final offsetXvaluesProvider=ChangeNotifierProvider.autoDispose<OffsetXvalues>(
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+//  debugPrintHitTestResults = true;
+
  // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.transparent));
@@ -51,8 +55,10 @@ void main() async {
 
 
   final appDocumentDir = await getApplicationDocumentsDirectory();
-  print(appDocumentDir.path);
+
   Hive.init(appDocumentDir.path);
+  //TODO:gerer les deux cas
+ // Hive.initFlutter();
 
   Hive.registerAdapter(TrackAdapter());
   Hive.registerAdapter(PlaylistAdapter());
@@ -61,7 +67,9 @@ void main() async {
   final tracksBox = await Hive.openBox<Track>('tracks');
   final playlistsBox = await Hive.openBox<Playlist>('playlists');
   final generatorsBox = await Hive.openBox<Generator>('generators');
-
+  if (! await storage.containsKey(key: 'token')) {
+    storage.write(key: 'token', value: null);
+  }
 
     await Methods.askStoragePermission();
     await Configuration.init();

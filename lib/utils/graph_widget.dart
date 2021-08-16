@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:collection';
 import 'dart:math';
 import 'dart:ui';
 
@@ -7,8 +6,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:listview_utils/listview_utils.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:moodplaner/core/collection.dart';
 import 'package:moodplaner/core/mediatype.dart';
 import 'package:moodplaner/core/metrictype.dart';
@@ -299,7 +296,6 @@ if (context.read(currentMetricIdProvider).metricId==null) {
                 child:  Consumer(
                             builder: (BuildContext context, T Function<T>(ProviderBase<Object?, T>) watch, Widget? child) {
                               print('dans CONSUMER');
-                              print("lastActivated "+context.read(graphDataProvider).lastActivated.toString());
                               size = Size(max(widget.constraints.maxWidth,offsetXvalue * (context.read(graphDataProvider).lastActivated+1).toDouble()),0);
                               print(size);
                               print(_scrollController);
@@ -487,9 +483,8 @@ late Generator generator;
   useCustomData(Generator  newData){
 
     generator=newData;
-    if (generator.measures==null){
-      generator.measures= {};
-    }
+   // generator.measures= {};
+
     updateLastActivated();
   }
 

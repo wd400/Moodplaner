@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moodplaner/constants/language.dart';
 import 'package:moodplaner/interface/settings/settings.dart';
 
-import '../harmonoid.dart';
+import '../moodplaner.dart';
 
 
 class ThemeSetting extends StatelessWidget {

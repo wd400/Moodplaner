@@ -1,8 +1,6 @@
 import 'package:assets_audio_player/assets_audio_player.dart' as AudioPlayer;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-import 'package:path/path.dart';
-
 import '../login.dart';
 import 'download.dart';
 import 'mediatype.dart';
@@ -53,7 +51,7 @@ abstract class Playback {
         audios.add(
           new AudioPlayer.Audio.liveStream(
               '$SERVER_IP/songs/${track.hash}',
-              headers: {"Authorization": (await storage.read(key: "token"))!},
+              headers: {"token": (await storage.read(key: "token"))!},
               metas: new AudioPlayer.Metas(
                 title: track.getName(),
                 album: track.albumArtistName ?? 'Unknown artist',

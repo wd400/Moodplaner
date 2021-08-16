@@ -6,13 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hive/hive.dart';
 import 'package:moodplaner/core/mediatype.dart';
 import 'package:moodplaner/core/metrictype.dart';
+import 'package:moodplaner/core/synchronization.dart';
 import 'package:moodplaner/utils/chips_widget.dart';
 import 'package:moodplaner/utils/graph_widget.dart';
 import 'package:multi_select_flutter/dialog/mult_select_dialog.dart';
-import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:multi_select_flutter/util/multi_select_list_type.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -60,7 +59,7 @@ class _CollectionGeneratorState extends State<CollectionGenerator> {
     super.dispose();
     widget.generator.lastModif=DateTime.now();
     this.widget.generator.save();
-
+    syncGenerators();
   }
 
   @override
@@ -192,7 +191,7 @@ class _CollectionGeneratorState extends State<CollectionGenerator> {
 
                                   onToggle: (index) {
                                     context.read(paintSettingsProvider).updatebargraph(value: index==1);
-                                    print('switched to: $index');
+
                                   },
                                 ),
                               ),
@@ -217,8 +216,7 @@ class _CollectionGeneratorState extends State<CollectionGenerator> {
                                   ],
                                   onToggle: (index) {
                                  context.read(eraseModeProvider).setEraser(value: index==0);
-                                    print('switched to: $index');
-                                    print(context.read(eraseModeProvider).eraser);
+
                                   },
                                 ),
                               ),
@@ -240,7 +238,6 @@ class _CollectionGeneratorState extends State<CollectionGenerator> {
     items: METRICS.map((value) => MultiSelectItem<int?>(value.metricId,value.name)).toList(),
     listType: MultiSelectListType.CHIP,
     onConfirm: (values) {
-    print(values);
   //  if (values.isNotEmpty) {
     //  context.read(currentMetricIdProvider).update(metricId: values[0] as int);
   //  }

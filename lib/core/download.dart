@@ -51,7 +51,7 @@ class DownloadTask {
     var streamConsumer = this.saveLocation.openWrite();
     try {
       this._responseStream = await httpClient.send(
-        new http.Request('GET', this.fileUri,)..headers['Authorization']=(await storage.read(key: "token"))!
+        new http.Request('GET', this.fileUri,)..headers['token']=(await storage.read(key: "token"))!
       );
       this.fileSize = this._responseStream.contentLength;
       await for (List<int> responseChunk in this._responseStream.stream) {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moodplaner/constants/language.dart';
 import 'package:moodplaner/interface/settings/account.dart';
-import 'package:moodplaner/interface/settings/server.dart';
 import 'package:moodplaner/interface/settings/theme.dart';
 import 'package:moodplaner/interface/settings/version.dart';
 
@@ -24,6 +23,7 @@ class Settings extends StatelessWidget {
       body: ListView(
         padding: EdgeInsets.symmetric(vertical: 4.0),
         children: [
+
           ThemeSetting(),
           AccentSetting(),
           IndexingSetting(),
@@ -31,9 +31,10 @@ class Settings extends StatelessWidget {
           LanguageSetting(),
           // TODO: Fix scrolling bug in CollectionTabs widget & implement saving configuration.
           // CollectionTabs(),
-          AccountSetting(),
+
           MiscellaneousSetting(),
           VersionSetting(),
+          AccountSetting(),
         ],
       ),
     );

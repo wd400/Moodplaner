@@ -19,7 +19,7 @@ class TrackAdapter extends TypeAdapter<Track> {
     return Track(
       hash: fields[0] as String?,
       filePath: fields[1] as String?,
-      todel: fields[2] as bool?,
+      todel: fields[2] as bool,
       trackName: fields[4] as String?,
       albumArtistName: fields[5] as String?,
     )..synced = fields[3] as bool;
@@ -70,14 +70,13 @@ class PlaylistAdapter extends TypeAdapter<Playlist> {
     )
       ..tracks = (fields[2] as List).cast<Track>()
       ..lastModif = fields[3] as DateTime
-      ..lastSync = fields[4] as DateTime?
-      ..todel = fields[5] as bool;
+      ..todel = fields[4] as bool;
   }
 
   @override
   void write(BinaryWriter writer, Playlist obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.playlistName)
       ..writeByte(1)
@@ -87,8 +86,6 @@ class PlaylistAdapter extends TypeAdapter<Playlist> {
       ..writeByte(3)
       ..write(obj.lastModif)
       ..writeByte(4)
-      ..write(obj.lastSync)
-      ..writeByte(5)
       ..write(obj.todel);
   }
 
@@ -120,14 +117,13 @@ class GeneratorAdapter extends TypeAdapter<Generator> {
           MapEntry(k as int, (v as List).cast<double?>())),
     )
       ..lastModif = fields[3] as DateTime
-      ..lastSync = fields[4] as DateTime?
-      ..todel = fields[5] as bool;
+      ..todel = fields[4] as bool;
   }
 
   @override
   void write(BinaryWriter writer, Generator obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.generatorName)
       ..writeByte(1)
@@ -137,8 +133,6 @@ class GeneratorAdapter extends TypeAdapter<Generator> {
       ..writeByte(3)
       ..write(obj.lastModif)
       ..writeByte(4)
-      ..write(obj.lastSync)
-      ..writeByte(5)
       ..write(obj.todel);
   }
 

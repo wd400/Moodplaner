@@ -6,7 +6,7 @@ import 'package:moodplaner/interface/settings/settings.dart';
 
 
 import '../changenotifiers.dart';
-import '../harmonoid.dart';
+import '../moodplaner.dart';
 
 
 class AccentSetting extends StatefulWidget {

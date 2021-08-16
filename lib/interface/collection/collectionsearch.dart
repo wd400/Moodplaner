@@ -1,3 +1,6 @@
+
+import 'dart:io';
+
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -237,7 +240,7 @@ class CollectionSearchState extends State<CollectionSearch> {
                   //download
 
                   download.addTask(new DownloadTask(fileUri:  Uri.parse('$SERVER_IP/songs/${collectionItem.hash}'),
-                      saveLocation: Hive.box('configuration').get('collectionDirectory')+'/'+collectionItem.getName()));
+                      saveLocation: File(Hive.box('configuration').get('collectionDirectory')+'/'+collectionItem.getName())));
                   break;
               }
             },

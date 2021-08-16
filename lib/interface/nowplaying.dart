@@ -75,10 +75,10 @@ class NowPlayingState extends State<NowPlaying> with TickerProviderStateMixin {
         setState(() => this._position = duration);
       });
       this._streamSubscriptions[1] = audioPlayer.current.listen((AudioPlayer.Playing? playing) {
-        print(playing);
+
         if (playing == null) return;
         this.setState(() {
-          print(playing.audio.audio.metas);
+
           this._currentTitle=playing.audio.audio.metas.title;
           this._currentArtist=playing.audio.audio.metas.album;
           this._durationSeconds = playing.audio.duration.inSeconds;

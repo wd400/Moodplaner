@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-//import 'package:provider/provider.dart';
 
 import 'package:hive/hive.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hive/hive.dart';
 import 'package:moodplaner/constants/language.dart';
 import 'package:moodplaner/core/collection.dart';
 import 'package:moodplaner/core/mediatype.dart';
 import 'package:moodplaner/core/playback.dart';
-import '../home.dart';
+import 'package:moodplaner/core/synchronization.dart';
 
 
 class CollectionPlaylistTab extends StatelessWidget {
@@ -231,7 +228,7 @@ class CollectionPlaylistTab extends StatelessWidget {
                                   .primaryColor,
                               onPressed: () async {
 
-                                ((box.get(playlistsKeys[index]) as Playlist)..todel=true).save();
+                                ((box.get(playlistsKeys[index]) as Playlist)..todel=true..lastModif=DateTime.now()).save();
                                 Navigator.of(subContext)
                                     .pop();
                               },
@@ -319,7 +316,7 @@ class _CollectionPlaylistState extends State<CollectionPlaylist> {
   Playlist playlist;
 
 
-  _CollectionPlaylistState({required Playlist this.playlist});
+  _CollectionPlaylistState({required this.playlist});
 
   @override
   Widget build(BuildContext context) {
@@ -350,6 +347,7 @@ class _CollectionPlaylistState extends State<CollectionPlaylist> {
                   final item = playlist.tracks.removeAt(oldIndex);
                   playlist.tracks.insert(newIndex, item);
                 });
+                playlist.lastModif=DateTime.now();
                 playlist.save();
                 //TODO this.widget.playlist.save();
               },
@@ -379,7 +377,11 @@ class _CollectionPlaylistState extends State<CollectionPlaylist> {
                       onPressed: () {
 
                             this.widget.playlist.tracks.removeAt(index);
+                            this.widget.playlist.lastModif=DateTime.now();
                             this.widget.playlist.save();
+                            setState(() {
+
+                            });
                       },
 
                       icon: Icon(
@@ -405,5 +407,12 @@ class _CollectionPlaylistState extends State<CollectionPlaylist> {
             ),
           );
         }
+
+
+  @override
+  void dispose()  {
+    super.dispose();
+    syncPlaylists();
+  }
 
   }

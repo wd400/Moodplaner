@@ -1,6 +1,5 @@
 
 import 'dart:convert';
-import 'dart:io';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +20,7 @@ final noInternet = SnackBar(content: Text('No internet'));
           filename
       )
   );
-  request.headers.addAll( {"Authorization": (await storage.read(key: "token"))!});
+  request.headers.addAll( {"token": (await storage.read(key: "token"))!});
   return await request.send();
 }
 
@@ -38,10 +37,10 @@ final noInternet = SnackBar(content: Text('No internet'));
 
 Future<bool> goodToken() async{
    String? token=await storage.read(key: "token");
-   if (token==null){
+   if (token==null || token==''){
      return false;
    }
-  var res = await get( Uri.parse( '$SERVER_IP/ping'),   headers: {"Authorization": token});
+  var res = await get( Uri.parse( '$SERVER_IP/ping'),   headers: {"token": token});
    if (res.statusCode==200){
      return true;
    }
@@ -51,19 +50,23 @@ Future<bool> goodToken() async{
 
 void syncTracks() async {
   Box<Track> trackBox=Hive.box<Track>('tracks');
-List<Track> tracks = trackBox.values.toList();
-tracks.removeWhere((element) => element.todel!);
-
+//tracks.removeWhere((element) => element.todel!);
 var res = await post(
     Uri.parse( '$SERVER_IP/synctracks'),
-    body:  tracks.map((e) => e.hash).toList() , headers: {"Authorization": (await storage.read(key: "token"))!}
+    body:  {'setData':(trackBox.values.toList()..removeWhere((element) => element.filePath==null)).map((e) => ['"'+e.hash!+'"',e.todel]).toList().toString()} , headers: {"token": (await storage.read(key: "token"))??''}
 );
 if(res.statusCode == 200) {
-  var hashs=jsonDecode(res.body);
+  List hashs=jsonDecode(res.body);
+  for (Track alreadySynced in trackBox.values.toList()..removeWhere((element) => (hashs.contains(element.hash)))) {
+
+    alreadySynced.synced=true;
+    alreadySynced.save();
+
+  }
   for (String trackHash in hashs) {
     Track track = trackBox.get(trackHash)!;
-    res = await sendFile(track.filePath!, '$SERVER_IP/synctracks');
-    if (res.statusCode == 200) {
+    var res2 = await sendFile(track.filePath!, '$SERVER_IP/synctrack');
+    if (res2.statusCode == 200) {
       track.synced = true;
       track.save();
     } else {
@@ -77,94 +80,130 @@ return;
 }
  }
 
- void syncPlaylists()async {
+
+ void syncPlaylists() async {
    Box<Playlist> playlistBox=Hive.box<Playlist>('playlists');
 
    List<Playlist> playlists = playlistBox.values.toList();
-   playlists.retainWhere((element) => ((element.lastSync==null)?true:element.lastModif.isAfter(element.lastSync!)));
-   var res = await post(
+   DateTime localLastSync=Hive.box('configuration').get('lastGeneratorSync')??DateTime.fromMillisecondsSinceEpoch(0);
+   playlists.retainWhere((element) => (element.lastModif.isAfter(localLastSync)));
+       var res = await post(
        Uri.parse( '$SERVER_IP/syncplaylists'),
-       body:  playlists.map((e) => [e.playlistId,e.playlistName,e.tracks,e.todel,e.lastModif] ).toSet() , headers: {"Authorization": (await storage.read(key: "token")).toString()}
+       body:  {'setData':playlists.map((e) => json.encode(e.toMap()) ).toList().toString(),
+       'lastSync':localLastSync.toIso8601String()} ,
+       headers: {"token": (await storage.read(key: "token"))??'' }
    );
 
-   //renvoi {playlists:[playlistId,name,tracks,last,lastModified],time:lastSync(=Date du serv)}
+   //renvoi {playlists:[playlistId,name,tracks,lastModified],time:lastSync(=Date du serv)}
 
-   var jsonRes = jsonDecode(res.body.toString());
-   var syncDate=DateTime.tryParse(jsonRes['time']);
+
 
    if (res.statusCode==200) {
-     for (Playlist playlist in playlists){
+     var jsonRes = jsonDecode(res.body.toString());
+     var syncDate=DateTime.tryParse(jsonRes['time']);
+
+     for (Playlist playlist in playlists) {
        if (playlist.todel) {
          playlistBox.delete(playlist.playlistId);
        } else {
-         playlist.lastSync=syncDate;
+  //       playlist.lastSync = syncDate;
          playlist.save();
        }
+     }
+     Box<Track> tracksBox=Hive.box<Track>('tracks');
 
-       for (List ret in jsonRes['playlists']){
+
+
+       for (Map<String,dynamic>  ret in jsonRes['playlists']){
+
+/*
+           for (String hash in ret['tracks']) {
+             if (!tracksBox.containsKey(hash)) {
+
+               download.addTask(new DownloadTask(fileUri:  Uri.parse('$SERVER_IP/songs/$hash'),
+                   saveLocation: Hive.box('configuration').get('collectionDirectory')+'/$hash'));
+
+               tracksBox.put(hash, Track(hash:hash,todel: false));
+             }
+           }
+
+*/
          Playlist newplaylist;
-         if (playlistBox.keys.contains(ret[0])) {
-           newplaylist = playlistBox.get(ret[0])!;
+         if (playlistBox.keys.contains(ret['id'])) {
+           newplaylist = playlistBox.get(ret['id'])!;
          } else {
-           newplaylist=new Playlist(playlistId: ret[0]);
-           playlistBox.put(ret[0], newplaylist);
+           newplaylist=new Playlist(playlistId: ret['id']);
+           playlistBox.put(ret['id'], newplaylist);
          }
            newplaylist.todel=false;
-           newplaylist.playlistName=ret[1];
-           newplaylist.tracks=ret[2];
-           newplaylist.lastModif=ret[3];
-           newplaylist.lastSync=syncDate;
+           newplaylist.playlistName=ret['title'];
+
+           newplaylist.tracks=ret['tracks'].map<Track>((e)=> tracksBox.containsKey(e)? tracksBox.get(e)! : new Track(hash:e,todel: false)).toList();
+
+           newplaylist.lastModif=DateTime.parse(ret['lastmodified']);
+    //       newplaylist.lastSync=syncDate;
            newplaylist.save();
          }
-       }
-
-   } else {
+     Hive.box('configuration').put('lastPlaylistSync',syncDate);
+   } else if (res.statusCode==403) {
      //fail
      return;
+   } else {
+
+     return;
    }
- }
+   }
+
 
 void syncGenerators()async {
   Box<Generator> generatorBox=Hive.box<Generator>('generators');
 
   List<Generator> generators = generatorBox.values.toList();
-  generators.retainWhere((element) => ((element.lastSync==null)?true:element.lastModif.isAfter(element.lastSync!)));
+  DateTime localLastSync=Hive.box('configuration').get('lastGeneratorSync')??DateTime.fromMillisecondsSinceEpoch(0);
+  generators.retainWhere((element) => element.lastModif.isAfter(localLastSync));
+
+ // print( generators.map((e)=>e.toJson()).toSet().toString());
   var res = await post(
-      Uri.parse( '$SERVER_IP/syncplaylists'),
-      body:  generators.map((e) => [e.generatorId,e.generatorId,e.measures,e.todel,e.lastModif] ).toSet() , headers: {"Authorization": (await storage.read(key: "token")).toString()}
+      Uri.parse( '$SERVER_IP/syncgenerators'),
+
+      body:  {'setData':generators.map((e) => json.encode(e.toJson()) ).toList().toString(),
+      'lastSync':localLastSync.toIso8601String()} , headers: {"token": (await storage.read(key: "token")).toString()}
   );
 
-  //renvoi {playlists:[playlistId,name,tracks,last,lastModified],time:lastSync(=Date du serv)}
-
-  var jsonRes = jsonDecode(res.body.toString());
-  var syncDate=DateTime.tryParse(jsonRes['time']);
-
   if (res.statusCode==200) {
-    for (Generator generator in generators){
+
+  //  print(res.body.toString());
+    var jsonRes = jsonDecode(res.body.toString());
+    print(jsonRes);
+    var syncDate=DateTime.tryParse(jsonRes['time']);
+    for (Generator generator in generators) {
       if (generator.todel) {
         generatorBox.delete(generator.generatorId);
       } else {
-        generator.lastSync=syncDate;
-        generator.save();
-      }
-
-      for (List ret in jsonRes['playlists']){
-        Generator newgenerator;
-        if (generatorBox.keys.contains(ret[0])) {
-          newgenerator = generatorBox.get(ret[0])!;
-        } else {
-          newgenerator=new Generator(generatorId: ret[0]);
-          generatorBox.put(ret[0], newgenerator);
-        }
-        newgenerator.todel=false;
-        newgenerator.generatorName=ret[1];
-        newgenerator.measures=ret[2];
-        newgenerator.lastModif=ret[3];
-        newgenerator.lastSync=syncDate;
-        newgenerator.save();
+    //    generator.lastSync = syncDate;
+        print(generator.measures);
+       // generator.save();
       }
     }
+      for (Map<String,dynamic> ret in jsonRes['generators']){
+        print("ret");
+        print(ret);
+        Generator newgenerator;
+        if (generatorBox.keys.contains(ret['id'])) {
+          newgenerator = generatorBox.get(ret['id'])!;
+        } else {
+          newgenerator=new Generator(generatorId: ret['id']);
+          generatorBox.put(ret['id'], newgenerator);
+        }
+        newgenerator.todel=false;
+        newgenerator.generatorName=ret['title'];
+        newgenerator.measures=ret['metrics'].map<int, List<double?>>((k, v) => MapEntry<int, List<double?>>(int.parse(k),  v.cast<double?>()   ));
+        newgenerator.lastModif=DateTime.parse(ret['lastmodified']);
+ //       newgenerator.lastSync=syncDate;
+        newgenerator.save();
+      }
 
+    Hive.box('configuration').put('lastGeneratorSync',syncDate);
   } else {
     //fail
     return;
@@ -175,7 +214,7 @@ void syncGenerators()async {
 Future<bool> generatePlaylist(Generator generator) async {
   String token=(await storage.read(key: "token"))!;
   syncGenerators();
-  var res = await get( Uri.parse( '$SERVER_IP/generate/'+generator.generatorId.toString()),   headers: {"Authorization": token});
+  var res = await get( Uri.parse( '$SERVER_IP/generate/'+generator.generatorId.toString()),   headers: {"token": token});
   if (res.statusCode==200){
     //todo:pas optim
     syncPlaylists();

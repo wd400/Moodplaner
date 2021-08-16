@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moodplaner/constants/language.dart';
 import 'package:moodplaner/core/mediatype.dart';
 import 'package:moodplaner/core/playback.dart';
 import 'package:moodplaner/utils/widgets.dart';
-import 'package:path/path.dart';
-//import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 
 import 'package:hive/hive.dart';
@@ -52,7 +49,7 @@ class CollectionTrackTab extends StatelessWidget {
                       builder: (BuildContext context, Box<dynamic> trackBox,
                           Widget? child) {
                         List tracksKeys = trackBox.keys.toList();
-                        print(tracksKeys);
+
                         tracksKeys.removeWhere((element) =>
                         (trackBox.get(element) as Track).todel == true);
                         return ListView.builder(
@@ -239,14 +236,10 @@ class CollectionTrackTab extends StatelessWidget {
                                                                             .color,
                                                                       ),
                                                                       onTap: () async {
-                                                                        (playlistBox
-                                                                            .get(
-                                                                            playlistsKeys[playlistIndex]) as Playlist)
-                                                                            .tracks
-                                                                            .add(
-                                                                            trackBox
-                                                                                .get(
-                                                                                tracksKeys[index]) as Track);
+                                                                     Playlist playlist=   playlistBox.get(playlistsKeys[playlistIndex]);
+                                                                     playlist.tracks.add(trackBox.get(tracksKeys[index]));
+                                                                     playlist.lastModif=DateTime.now();
+                                                                     playlist.save();
 
                                                                         Navigator
                                                                             .of(

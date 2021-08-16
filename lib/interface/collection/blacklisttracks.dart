@@ -5,12 +5,10 @@ import 'package:moodplaner/core/mediatype.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'edittrackmetrics.dart';
 
 class BlacklistTracks  extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
         appBar: AppBar(
           title: Text('Blacklist'),
@@ -23,7 +21,7 @@ class BlacklistTracks  extends StatelessWidget {
         builder: (BuildContext context, Box<dynamic> trackBox,
             Widget? child) {
           List tracksKeys = trackBox.keys.toList();
-          print(tracksKeys);
+
           tracksKeys.retainWhere((element) =>
           (trackBox.get(element) as Track).todel == true);
 

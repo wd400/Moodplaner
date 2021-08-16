@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive/hive.dart';
 import 'package:moodplaner/constants/language.dart';
 import 'package:moodplaner/interface/collection/blacklisttracks.dart';
 import 'package:moodplaner/interface/settings/settings.dart';
-//import 'package:provider/provider.dart';
 
-import '../../login.dart';
-import '../harmonoid.dart';
+import '../moodplaner.dart';
 
 
 class MiscellaneousSetting extends StatelessWidget {

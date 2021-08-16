@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert' show json, base64, ascii;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-const SERVER_IP = 'http://192.168.1.167:5000';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'interface/home.dart';
+
+const SERVER_IP = 'http://10.0.2.2:5000';
 final storage = FlutterSecureStorage();
 
 void main() {
@@ -62,7 +64,8 @@ class LoginPage extends StatelessWidget {
         }
     );
     if(res.statusCode == 200) {
-      Hive.box('config').put("mail",mail);
+      Hive.box('configuration').put("mail",mail);
+
       return res.body;
     }
       return null;
@@ -110,6 +113,7 @@ class LoginPage extends StatelessWidget {
                     var token = await attemptLogIn(mail, password);
                     if(token != null) {
                       storage.write(key: "token", value: token);
+                      await context.read(collectionProvider).refresh();
                       Navigator.pop(context);
 
                     } else {
@@ -123,16 +127,22 @@ class LoginPage extends StatelessWidget {
                     var mail = _mailController.text;
                     var password = _passwordController.text;
 
-                    if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(mail))
+                    if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+$").hasMatch(mail))
                       displayDialog(context, "Invalid mail", "This is not a valid email format");
                     else if(password.length < 4)
                       displayDialog(context, "Invalid Password", "The password should be at least 4 characters long");
+                    else if (!RegExp(r"(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})").hasMatch(password))
+                      displayDialog(context, "Invalid password", "Choose a stronger password");
                     else{
                       var res = await attemptSignUp(mail, password);
                       if(res == 201)
                         displayDialog(context, "Success", "The user was created. Log in now.");
                       else if(res == 409)
                         displayDialog(context, "That mail is already registered", "Please try to sign up using another mail or log in if you already have an account.");
+                      else if(res == 408)
+                        displayDialog(context, "Invalid mail", "This is not a valid email format");
+                      else if(res == 407)
+                        displayDialog(context,  "Invalid password", "Choose a stronger password");
                       else {
                         displayDialog(context, "Error", "An unknown error occurred.");
                       }
@@ -154,7 +164,7 @@ class HomePage extends StatelessWidget {
         appBar: AppBar(title: Text("Secret Data Screen")),
         body: Center(
           child: FutureBuilder(
-              future: http.read(Uri.parse('$SERVER_IP/data')),
+              future: http.read(Uri.parse('$SERVER_IP/ping')),
               builder: (context, AsyncSnapshot<String> snapshot) =>
               snapshot.hasData ?
               Column(children: <Widget>[

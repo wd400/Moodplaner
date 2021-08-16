@@ -1,12 +1,7 @@
 import 'dart:core';
-import 'dart:ffi';
 import 'dart:io';
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
-import 'package:cryptography/cryptography.dart' as crypto;
-import 'package:path/path.dart' as path;
 
-import 'dart:convert';
 import 'package:crypto/crypto.dart';
 
 
@@ -27,7 +22,7 @@ class Track extends MediaType {
   @HiveField(1)
   String? filePath;
   @HiveField(2)
-  bool? todel;
+  bool todel=false;
 
   @HiveField(3)
   bool synced=false;
@@ -40,7 +35,6 @@ class Track extends MediaType {
 
   String? type = 'Track';
 
-  @override
   Map<String, dynamic> toMap() {
     return {
       'hash': this.hash,
@@ -63,7 +57,7 @@ return trackName??basename(filePath!);
     );
   }
 
-  Track({this.hash, this.filePath, this.todel, this.trackName,this.albumArtistName});
+  Track({this.hash, this.filePath, required this.todel, this.trackName,this.albumArtistName});
 
   @override
   bool operator == (Object other) =>
@@ -71,14 +65,13 @@ return trackName??basename(filePath!);
           other.hash == hash;
 
   static Future<Track> fromFile(File object) async {
-    final algorithm = crypto.Sha512();
-    final crypto.Hash  hash = await algorithm.hash(object.readAsBytesSync());
-    MetadataRetriever retriever = new MetadataRetriever();
-    await retriever.setFile(object);
-    Metadata metadata = await retriever.metadata;
+  //  final algorithm = crypto.Sha512();
+  //  final crypto.Hash  hash = await algorithm.hash(object.readAsBytesSync());
+    var digest = sha256.convert(object.readAsBytesSync());
+    Metadata metadata = await MetadataRetriever.fromFile(object);
     return new Track(filePath: object.path,
         todel: false,
-        hash: hash.toString(),
+        hash: digest.toString(),
     trackName: metadata.trackName,
     albumArtistName: metadata.albumArtistName,
     );
@@ -101,19 +94,19 @@ class Playlist extends MediaType {
   @HiveField(3)
   DateTime lastModif=DateTime.now();
   @HiveField(4)
-  DateTime? lastSync;
-  @HiveField(5)
+//  DateTime? lastSync;
+//  @HiveField(5)
   bool todel=false;
 
   var type = 'Playlist';
 
-  @override
   Map<String, dynamic> toMap() {
     return {
       'playlistName': this.playlistName,
       'playlistId': this.playlistId,
-      'tracks': tracks,
-      'type': this.type,
+      'tracks': tracks.map((e) => e.hash).toList(),
+      'lastModif':this.lastModif.toIso8601String(),
+      'todel':todel
     };
   }
 
@@ -132,21 +125,29 @@ class Generator extends MediaType {
   @HiveField(3)
   DateTime lastModif=DateTime.now();
   @HiveField(4)
-  DateTime? lastSync;
-  @HiveField(5)
+//  DateTime? lastSync;
+//  @HiveField(5)
   bool todel=false;
 
 
   String? type = 'Generator';
 
-  @override
-  Map<String, dynamic> toMap() {
+  Generator.fromJson(Map<String, dynamic> json)
+      : generatorName = json['generatorName'],
+        generatorId = json['generatorId'],
+        measures= json['measures'],
+        lastModif=json['lastModif']
+   //     lastSync=json['lastSync']
+  ;
+
+  Map<String, dynamic> toJson() {
     return {
       'generatorName': this.generatorName,
       'generatorId': this.generatorId,
-      'measures':measures,
-      'lastModif':lastModif,
-      'lastSync':lastSync
+      'measures':measures.map((key, value) => MapEntry(key.toString(), value) ),
+      'lastModif':lastModif.toIso8601String(),
+     // 'lastSync':lastSync?.toIso8601String(),
+      'todel':todel
 
     };
 

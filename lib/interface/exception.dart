@@ -146,7 +146,7 @@ class ExceptionMaterialApp extends StatelessWidget {
               ),
               actions: [
                 MaterialButton(
-                  onPressed: () => UrlLauncher.launch('https://github.com/alexmercerind/harmonoid/issues'),
+                  onPressed: () => UrlLauncher.launch('https://github.com/wd400/Moodplaner_UI/issues'),
                   child: Text(
                     'REPORT ISSUE',
                     style: TextStyle(

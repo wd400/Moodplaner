@@ -7,7 +7,7 @@ import 'dart:math' as math;
 import 'package:moodplaner/constants/language.dart';
 import 'package:moodplaner/core/mediatype.dart';
 
-import '../harmonoid.dart';
+import '../moodplaner.dart';
 import '../home.dart';
 import 'collectiongenerator.dart';
 import 'collectionplaylist.dart';
@@ -123,7 +123,7 @@ class CollectionMusicState extends State<CollectionMusic> with SingleTickerProvi
               controller: this._tabController,
               children: <Widget>[
                 Builder(
-                  key: PageStorageKey(new Track().type),
+                  key: PageStorageKey(new Track(todel:false).type),
                   builder: (context) => CollectionTrackTab(),
                 ),
                 Builder(

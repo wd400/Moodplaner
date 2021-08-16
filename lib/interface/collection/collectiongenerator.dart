@@ -8,14 +8,10 @@ import 'package:moodplaner/constants/language.dart';
 import 'package:moodplaner/core/collection.dart';
 import 'package:moodplaner/core/mediatype.dart';
 import 'package:moodplaner/core/synchronization.dart';
-import 'package:moodplaner/utils/graph_widget.dart';
 
 import '../../login.dart';
 import '../editGenerator.dart';
-import '../home.dart';
 
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 
 class CollectionGeneratorTab extends StatelessWidget {
@@ -211,6 +207,7 @@ class CollectionGeneratorTab extends StatelessWidget {
                                               int index) {
                                             Generator generator = box.get(
                                                 generatorsKeys[index])!;
+                                            print(generator.measures);
                                             return ListTile(
                                               onTap: () {
 
@@ -259,7 +256,8 @@ class CollectionGeneratorTab extends StatelessWidget {
                                                                   .of(context)
                                                                   .primaryColor,
                                                               onPressed: () async {
-                                                                (generator..todel=true).save();
+
+                                                                (generator..todel=true..lastModif=DateTime.now()).save();
 
                                                                 Navigator.of(
                                                                     subContext)
@@ -284,11 +282,13 @@ class CollectionGeneratorTab extends StatelessWidget {
                                                           ],
                                                         ),
                                                   ),
-                                              title: Text(
+                                              title:  Text(
                                                   generator.generatorName!),
                                               trailing: IconButton(
+
                                                 //TODO: build request
-                                                onPressed: () => (){
+                                                onPressed: ()  {
+
                                                   authNeeded().then((value)
                                                   {
                                                     switch (value) {
@@ -317,19 +317,6 @@ class CollectionGeneratorTab extends StatelessWidget {
                                                   }
 
                                                   });
-
-
-
-
-
-
-
-
-
-
-
-
-
                                                 },
                                                 icon: Icon(
                                                   Icons.play_arrow,
@@ -338,14 +325,6 @@ class CollectionGeneratorTab extends StatelessWidget {
                                                       .iconTheme
                                                       .color,
                                                 ),
-                                                iconSize: Theme
-                                                    .of(context)
-                                                    .iconTheme
-                                                    .size!,
-                                                splashRadius: Theme
-                                                    .of(context)
-                                                    .iconTheme
-                                                    .size! - 8,
                                               ),
                                             );
                                           });
