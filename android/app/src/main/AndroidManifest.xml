@@ -14,7 +14,7 @@
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
         android:name="io.flutter.app.FlutterApplication"
-        android:label="Harmonoid"
+        android:label="Moodplaner"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

@@ -239,8 +239,11 @@ class CollectionSearchState extends State<CollectionSearch> {
 
                   //download
 
+                print("iiiici");
                   download.addTask(new DownloadTask(fileUri:  Uri.parse('$SERVER_IP/songs/${collectionItem.hash}'),
-                      saveLocation: File(Hive.box('configuration').get('collectionDirectory')+'/'+collectionItem.getName())));
+                      saveLocation: File(Hive.box('configuration').get('collectionDirectory')+'/'+collectionItem.getName()),
+                  extras:Track(trackName: collectionItem.trackName,albumArtistName: collectionItem.albumArtistName, todel: false)));
+                  download.start();
                   break;
               }
             },

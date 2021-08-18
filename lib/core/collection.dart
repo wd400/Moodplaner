@@ -99,7 +99,6 @@ print(result);
 
     var res = await http.post( Uri.parse( '$SERVER_IP/search'), body:{'query':query},  headers: {"token": (await storage.read(key: "token"))??''});
     if (res.statusCode==200){
-      print("iiiiiici");
       Box<Track> tracksBox=Hive.box<Track>('tracks');
       return convert.jsonDecode(res.body).map<Track>((e)=> tracksBox.get( e['hash'])?? Track(hash:e['hash'],trackName: e['title'], todel: false)).toList();
     }

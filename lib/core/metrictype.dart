@@ -5,18 +5,20 @@ class MetricInfo {
    late final String name;
    late final String metricCode;
    late final MaterialColor color;
-  MetricInfo({required this.name,required this.metricCode,required this.color});
+   late final String binf;
+   late final String bsup;
+  MetricInfo({required this.name,required this.metricCode,required this.color,required this.binf,required this.bsup});
 }
 
  Map<String,MetricInfo> METRICS = {
-   'm1': MetricInfo(name: language!.STRING_METRIC_ROCK,
-       metricCode: 'm1', color: Colors.brown),
+   'v': MetricInfo(name: "Valence",
+       metricCode: 'm1', color: Colors.brown,binf: "Low",bsup: "High"),
 
-   'm2': MetricInfo(name: language!.STRING_METRIC_BLUES,
-       metricCode: 'm2', color: Colors.blue),
+   'a': MetricInfo(name: "Arousal",
+       metricCode: 'm2', color: Colors.blue,binf: "Negative",bsup: "Positive"),
 
-   'm3':MetricInfo(name: language!.STRING_METRIC_HAPPY,
-       metricCode: 'm3', color: Colors.yellow),
+   'bpm':MetricInfo(name: "BPM",
+       metricCode: 'm3', color: Colors.yellow,binf: "<50",bsup: ">180"),
 
  };
 

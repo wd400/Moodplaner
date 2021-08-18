@@ -38,28 +38,30 @@ class DownloadTask {
   bool isStarted = false;
   bool isCompleted = false;
   int downloadedSize = 0;
-  int? fileSize = 0;
-  double progress = 0.0;
+//  int? fileSize = 0;
+//  double progress = 0.0;
   bool isSuccess = true;
   late http.StreamedResponse _responseStream;
 
-  DownloadTask({required this.fileUri, required this.saveLocation, this.downloadId, this.fileSize, this.extras, this.onProgress, this.onCompleted, this.onException});
+  DownloadTask({required this.fileUri, required this.saveLocation, this.downloadId, this.extras, this.onProgress, this.onCompleted, this.onException});
 
   Stream<DownloadTask> start() async* {
     http.Client httpClient = new http.Client();
 
     var streamConsumer = this.saveLocation.openWrite();
     try {
+      print(1);
       this._responseStream = await httpClient.send(
         new http.Request('GET', this.fileUri,)..headers['token']=(await storage.read(key: "token"))!
       );
-      this.fileSize = this._responseStream.contentLength;
+      print(_responseStream.contentLength);
+    //  this.fileSize = this._responseStream.contentLength;
       await for (List<int> responseChunk in this._responseStream.stream) {
         this.downloadedSize += responseChunk.length;
         if (this._responseStream.statusCode >= 200 && this._responseStream.statusCode < 300) {
           streamConsumer.add(responseChunk);
-          this.progress = this.downloadedSize / this.fileSize!;
-          this.onProgress?.call(this.progress);
+    //      this.progress = this.downloadedSize / this.fileSize!;
+   //       this.onProgress?.call(this.progress);
           yield this;
         }
         else {
@@ -71,6 +73,7 @@ class DownloadTask {
           throw this.exception!;
         }
       }
+      print(12);
       this.isSuccess = true;
       httpClient.close();
       streamConsumer.close();
@@ -83,6 +86,7 @@ class DownloadTask {
       httpClient.close();
       streamConsumer.close();
       this.isCompleted = true;
+      print(exception);
       if (await this.saveLocation.exists()) this.saveLocation.delete();
       if (exception is DownloadException) {
         throw this.exception!;
@@ -114,14 +118,14 @@ class Download {
     NotificationDetails details = NotificationDetails(
       android: AndroidNotificationDetails(
         'com.alexmercerind.harmonoid',
-        'Harmonoid',
+        'Moodplaner',
         '',
-        subText: task.extras.albumName,
+     //   subText: task.extras.albumName,
         icon: 'mipmap/ic_launcher',
         showProgress: !task.isCompleted,
-        progress: (task.progress * 100).toInt(),
-        maxProgress: 100,
-        ongoing: !(task.isCompleted || task.progress == 1.0),
+        progress: task.downloadedSize,
+   //     maxProgress: 100,
+   //     ongoing: !(task.isCompleted || task.progress == 1.0),
         showWhen: false,
         onlyAlertOnce: true,
         playSound: false,
@@ -131,7 +135,7 @@ class Download {
     await notification.show(
       task.downloadId!,
       task.extras.trackName,
-      task.isCompleted ? '${task.isSuccess ? language!.STRING_DOWNLOAD_COMPLETED : language!.STRING_DOWNLOAD_FAILED} ' : '' + '${this._toMegaBytes(task.downloadedSize)}/${this._toMegaBytes(task.fileSize)} MB',
+      task.isCompleted ? '${task.isSuccess ? language!.STRING_DOWNLOAD_COMPLETED : language!.STRING_DOWNLOAD_FAILED} ' : '' + '${this._toMegaBytes(task.downloadedSize)} MB',
       details,
       payload: '',
     );

@@ -261,7 +261,7 @@ class Language extends Strings with ChangeNotifier {
         this.STRING_DOWNLOAD_FAILED                                 = 'Download failed.';
         this.STRING_DISCORD                                         = 'DISCORD SERVER';
         this.STRING_EXIT_TITLE                                      = 'Exit';
-        this.STRING_EXIT_SUBTITLE                                   = 'Do you want to exit Harmonoid?';
+        this.STRING_EXIT_SUBTITLE                                   = 'Do you want to exit Moodplaner?';
         this.STRING_A_TO_Z                                          = 'A to Z';
         this.STRING_DATE_ADDED                                      = 'Date added';
         this.STRING_SETTING_ACCENT_COLOR_AUTOMATIC                  = 'Automatic accent';
@@ -883,7 +883,7 @@ class Language extends Strings with ChangeNotifier {
         this.STRING_DOWNLOAD_FAILED                                 = 'डाउनलोड फेल्ड.';
         this.STRING_DISCORD                                         = 'डिस्कॉर्ड सर्वर';
         this.STRING_EXIT_TITLE                                      = 'बंद';
-        this.STRING_EXIT_SUBTITLE                                   = 'क्या आप Harmonoid को छोड़ना चाहते हैं?';
+        this.STRING_EXIT_SUBTITLE                                   = 'क्या आप Moodplaner को छोड़ना चाहते हैं?';
         this.STRING_A_TO_Z                                          = 'A से Z';
         this.STRING_DATE_ADDED                                      = 'तिथि';
         this.STRING_SETTING_ACCENT_COLOR_AUTOMATIC                  = 'ऑटोमैटिक ऐप रंग';
@@ -1035,7 +1035,7 @@ class Language extends Strings with ChangeNotifier {
         this.STRING_DOWNLOAD_FAILED                                 = 'Download Failed.';
         this.STRING_DISCORD                                         = 'DISCORD SERVER';
         this.STRING_EXIT_TITLE                                      = 'Exit';
-        this.STRING_EXIT_SUBTITLE                                   = 'Do you want to exit Harmonoid?';
+        this.STRING_EXIT_SUBTITLE                                   = 'Do you want to exit Moodplaner?';
         this.STRING_A_TO_Z                                          = 'A to Z';
         this.STRING_DATE_ADDED                                      = 'Date Added';
         this.STRING_SETTING_ACCENT_COLOR_AUTOMATIC                  = 'Automatic Accent';
@@ -1187,7 +1187,7 @@ class Language extends Strings with ChangeNotifier {
         this.STRING_DOWNLOAD_FAILED                                 = 'Download Failed.';
         this.STRING_DISCORD                                         = 'DISCORD SERVER';
         this.STRING_EXIT_TITLE                                      = 'Exit';
-        this.STRING_EXIT_SUBTITLE                                   = 'Do you want to exit Harmonoid?';
+        this.STRING_EXIT_SUBTITLE                                   = 'Do you want to exit Moodplaner?';
         this.STRING_A_TO_Z                                          = 'A to Z';
         this.STRING_DATE_ADDED                                      = 'Date Added';
         this.STRING_SETTING_ACCENT_COLOR_AUTOMATIC                  = 'Automatic Accent';
@@ -1339,7 +1339,7 @@ class Language extends Strings with ChangeNotifier {
         this.STRING_DOWNLOAD_FAILED                                 = 'Nerladdning misslyckades.';
         this.STRING_DISCORD                                         = 'DISCORD SERVER';
         this.STRING_EXIT_TITLE                                      = 'Avsluta';
-        this.STRING_EXIT_SUBTITLE                                   = 'Vill du avsluta Harmonoid?';
+        this.STRING_EXIT_SUBTITLE                                   = 'Vill du avsluta Moodplaner?';
         this.STRING_A_TO_Z                                          = 'A till Ö';
         this.STRING_DATE_ADDED                                      = 'Datum tillagd';
         this.STRING_SETTING_ACCENT_COLOR_AUTOMATIC                  = 'Automatisk accentfärg';
@@ -1491,7 +1491,7 @@ class Language extends Strings with ChangeNotifier {
         this.STRING_DOWNLOAD_FAILED                                 = 'Échec du téléchargement.';
         this.STRING_DISCORD                                         = 'DISCORD SERVEUR';
         this.STRING_EXIT_TITLE                                      = 'Quitter';
-        this.STRING_EXIT_SUBTITLE                                   = 'Voulez-vous quitter Harmonoid?';
+        this.STRING_EXIT_SUBTITLE                                   = 'Voulez-vous quitter Moodplaner?';
         this.STRING_A_TO_Z                                          = 'A à Z';
         this.STRING_DATE_ADDED                                      = 'Date ajoutée';
         this.STRING_SETTING_ACCENT_COLOR_AUTOMATIC                  = 'Automatique accent';
