@@ -1,6 +1,7 @@
 # Moodplaner_UI
 
 Music application to generate fine playlists thanks to AI
+
 Synchronisation in the cloud
 
 
