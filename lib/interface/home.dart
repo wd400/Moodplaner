@@ -142,6 +142,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindin
     ];
     if (this.index! >= screens.length) this.index = screens.length - 1;
     return Scaffold(
+      resizeToAvoidBottomInset:false,
           body: PageTransitionSwitcher(
             child: screens[this.index!],
             duration: Duration(milliseconds: 400),

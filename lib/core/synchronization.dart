@@ -56,6 +56,14 @@ sendTrackRequest(Track track) async {
 }
 
 
+Future<void> syncAll() async {
+  if (await storage.read(key: "token")!=null) {
+  syncTracks();
+  syncPlaylists();
+  syncGenerators();
+  }
+
+}
 
 void syncTracks() async {
   Box<Track> trackBox=Hive.box<Track>('tracks');

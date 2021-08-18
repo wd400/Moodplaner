@@ -65,52 +65,41 @@ class _CollectionGeneratorState extends State<CollectionGenerator> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-
-/*      appBar: AppBar(
-        title: Text(this.widget.generator.generatorName??"Unamed"),
-        leading: IconButton(
-          icon: Icon(Icons.close),
-          iconSize: Theme
-              .of(context)
-              .iconTheme
-              .size!,
-          splashRadius: Theme
-              .of(context)
-              .iconTheme
-              .size! - 8,
-          onPressed: Navigator
-              .of(context)
-              .pop,
-        ),
-      ),*/
-      body: Column(
+    return  Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-         SafeArea(child:   Text(this.widget.generator.generatorName??"Unamed",textAlign: TextAlign.center,)),
-//             TextFormField(
-//               maxLength: 30,
-//
-//               onChanged: null,
-//               onEditingComplete: null,
-//               onFieldSubmitted: null,
-//               initialValue: this.widget.generator.generatorName,
-// //  controller: new TextEditingController(text: 'INITIAL_TEXT_HERE'),
-//
-// //           controller: new TextEditingController.fromValue(new TextEditingValue(text: _username,selection: new TextSelection.collapsed(offset: _username.length-1))),
-// //            onChanged: (val) => _username = val,
-//
-//               decoration: const InputDecoration(
-//                 counterText: "",
-//                 border: InputBorder.none,
-//                 focusedBorder: InputBorder.none,
-//                 enabledBorder: InputBorder.none,
-//                 errorBorder: InputBorder.none,
-//                 disabledBorder: InputBorder.none,
-//                 contentPadding: EdgeInsets.only(left: 15),
-//               ),
-//             ),
+         SafeArea(child:
+
+      //   Text(this.widget.generator.generatorName??"Unamed",textAlign: TextAlign.center,),
+
+
+            TextFormField(
+              maxLength: 30,
+
+              onFieldSubmitted: (String s){
+                widget.generator.lastModif=DateTime.now();
+                widget.generator.generatorName=s;
+                widget.generator.save();
+              },
+              initialValue: this.widget.generator.generatorName,
+//  controller: new TextEditingController(text: 'INITIAL_TEXT_HERE'),
+
+//           controller: new TextEditingController.fromValue(new TextEditingValue(text: _username,selection: new TextSelection.collapsed(offset: _username.length-1))),
+//            onChanged: (val) => _username = val,
+
+              decoration: const InputDecoration(
+                counterText: "",
+                border: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
+                contentPadding: EdgeInsets.only(left: 15),
+              ),
+            ),
+
+         ),
             Flexible(
                 child: Row(
 //      mainAxisAlignment: MainAxisAlignment.center,
@@ -225,7 +214,7 @@ class _CollectionGeneratorState extends State<CollectionGenerator> {
                     ])
             ),
 
-    SizedBox(height: 100,child:  Row(
+    SizedBox(height: 50,child:  Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children:  <Widget>[
                 IconButton(
@@ -265,9 +254,9 @@ class _CollectionGeneratorState extends State<CollectionGenerator> {
                   ],
             )),
  //  Flexible(child:Container())
-          ]
-      ),
-    );
+          ]);
+
+
   }
 }
 

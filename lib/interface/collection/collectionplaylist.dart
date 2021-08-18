@@ -336,7 +336,35 @@ class _CollectionPlaylistState extends State<CollectionPlaylist> {
                     .of(context)
                     .pop,
               ),
-              title: Text(this.widget.playlist.playlistName!),
+
+
+              title:             TextFormField(
+                maxLength: 30,
+
+                onFieldSubmitted: (String s){
+                  widget.playlist.lastModif=DateTime.now();
+                  widget.playlist.playlistName=s;
+                  widget.playlist.save();
+                },
+                initialValue: this.widget.playlist.playlistName,
+//  controller: new TextEditingController(text: 'INITIAL_TEXT_HERE'),
+
+//           controller: new TextEditingController.fromValue(new TextEditingValue(text: _username,selection: new TextSelection.collapsed(offset: _username.length-1))),
+//            onChanged: (val) => _username = val,
+
+                decoration: const InputDecoration(
+                  counterText: "",
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                  contentPadding: EdgeInsets.only(left: 15),
+                ),
+              ),
+
+
+
             ),
             body: ReorderableListView(
               onReorder: (int oldIndex, int newIndex) {

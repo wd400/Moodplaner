@@ -186,11 +186,8 @@ print(result);
      // }
       onProgress?.call(collectionDirectoryContent.length, collectionDirectoryContent.length, true);
    // }
-    if (await storage.read(key: "token")!=null) {
-      syncTracks();
-      syncPlaylists();
-      syncGenerators();
-    }
+
+   await syncAll();
     this.notifyListeners();
   }
 

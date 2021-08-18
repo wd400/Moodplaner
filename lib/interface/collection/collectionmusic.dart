@@ -41,6 +41,7 @@ class CollectionMusicState extends State<CollectionMusic> with SingleTickerProvi
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+    //  resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).brightness == Brightness.light ? Theme.of(context).accentColor: Theme.of(context).appBarTheme.color,
         child: TweenAnimationBuilder(

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,6 +16,7 @@ import 'core/configuration.dart';
 import 'core/download.dart';
 import 'core/fileintent.dart';
 import 'core/mediatype.dart';
+import 'core/synchronization.dart';
 import 'interface/moodplaner.dart';
 import 'login.dart';
 
@@ -84,6 +87,10 @@ void main() async {
     );
     await FileIntent.init();
     await Download.init();
+
+  Timer.periodic(Duration(seconds: 60), (timer) async {
+    await syncAll();
+  });
 
 
 
