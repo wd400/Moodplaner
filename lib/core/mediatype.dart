@@ -120,7 +120,7 @@ class Generator extends MediaType {
   @HiveField(1)
   int? generatorId;
   @HiveField(2)
-  Map<int,List<double?>> measures;
+  Map<String,List<double?>> measures;
 
   @HiveField(3)
   DateTime lastModif=DateTime.now();

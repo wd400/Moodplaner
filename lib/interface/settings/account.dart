@@ -17,6 +17,7 @@ final AccountDeletedsnackBar = SnackBar(content: Text('Your account has been suc
 
 final ErrorsnackBar = SnackBar(content: Text('Error, please try again later'));
 
+final NotLoggedsnackBar = SnackBar(content: Text('You are not logged'));
 // Find the ScaffoldMessenger in the widget tree
 // and use it to show a SnackBar.
 
@@ -32,11 +33,11 @@ class _AccountSettingState extends State<AccountSetting> {
 
 
 
-          return  Column(children: [SettingsTile(
+          return  SettingsTile(
     title: language!.STRING_SETTING_ACCOUNT_TITLE,
     subtitle:(token!=null) ? Hive.box('configuration').get('mail'):'',
 
-    child: ListTile(
+    child: Column(children: [ListTile(
     title: Text(token==null?'Log in':'Log out'),
     onTap: () async {
     if (token!=null) {
@@ -70,14 +71,17 @@ class _AccountSettingState extends State<AccountSetting> {
 
     });
 
-    })
-
-          ),
+    }),
 
           ListTile(
           title: Text('Delete account'),
           onTap: (){
+            if (token==null || token=='') {
 
+              ScaffoldMessenger.of(context).showSnackBar(NotLoggedsnackBar);
+
+              return;
+            }
           Navigator.of(context).push(
           MaterialPageRoute(
           //GeneratorDrawerWidget
@@ -120,14 +124,7 @@ class _AccountSettingState extends State<AccountSetting> {
 
           }, ),
 
-          ]);
-
-
-
-
-
-
-
+          ]));
         });}}
 
 

@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:moodplaner/constants/language.dart';
 class MetricInfo {
    late final String name;
-   late final int metricId;
+   late final String metricCode;
    late final MaterialColor color;
-  MetricInfo({required this.name,required this.metricId,required this.color});
+  MetricInfo({required this.name,required this.metricCode,required this.color});
 }
 
- List<MetricInfo> METRICS = [
-    MetricInfo(name:language!.STRING_METRIC_ROCK,
-              metricId: 0,color:Colors.brown),
+ Map<String,MetricInfo> METRICS = {
+   'm1': MetricInfo(name: language!.STRING_METRIC_ROCK,
+       metricCode: 'm1', color: Colors.brown),
 
-   MetricInfo(name:language!.STRING_METRIC_BLUES,
-       metricId: 1,color:Colors.blue),
+   'm2': MetricInfo(name: language!.STRING_METRIC_BLUES,
+       metricCode: 'm2', color: Colors.blue),
 
-   MetricInfo(name:language!.STRING_METRIC_HAPPY,
-       metricId: 2,color:Colors.yellow),
+   'm3':MetricInfo(name: language!.STRING_METRIC_HAPPY,
+       metricCode: 'm3', color: Colors.yellow),
 
- ];
+ };
 
 class Measure {
   late MetricInfo metric;
@@ -27,7 +27,7 @@ class Measure {
 
   Map<String, dynamic> toMap() {
     return {
-      'metricId': this.metric.metricId,
+      'metricId': this.metric.metricCode,
       'value': this.value,
     };
   }

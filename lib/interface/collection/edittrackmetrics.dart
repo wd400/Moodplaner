@@ -43,19 +43,30 @@ final Track track;
                     //
                     final Map<String, dynamic>  result = json.decode(snapshot.data!);
 
-                    return ListView.builder(
-                      itemCount: METRICS.length,
+List available=result['default'].keys.toList();
+available.sort();
+                    return Column(
+
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+
+                        children:[
+
+                   Flexible(child:   ListView.builder(
+                      itemCount: available.length,
                       itemBuilder: (context, index) {
+                        bool setByUser=  result['usermetrics']?[available[index]]?[1] ??false ;
                         return    MetricTile(track: track,
-                          metricInfo: METRICS[index],
-                          metricValue: result[index.toString()]?[0]??0.5,
-                          setByUser: result[index.toString()]?[1]??true,);
+                          metricInfo: METRICS[available[index]]!,
+                          metricValue: setByUser ? result['usermetrics'][available[index]][0].toDouble():result['default'][available[index]].toDouble(),
+                          setByUser:setByUser);
                       },
-                    );
+                   )   ),
+                    Text('Engine version: ' + ((result['version']==null)?  'Not yet analyzed':result['version'] ),textAlign: TextAlign.center,)],);
                   } else if (snapshot.hasError) {
                   return Text("An error occurred");
                   } else {
-                  return   CircularProgressIndicator();
+                  return  Center(child: CircularProgressIndicator());
                 }
                 }      )),
 
@@ -110,7 +121,7 @@ class MetricTileState extends State<MetricTile> {
         post(
             Uri.parse('$SERVER_IP/uploadmetric'),
             body: {'musicId': widget.track.hash,
-              'metricId': widget.metricInfo.metricId.toString(),
+              'metricCode': widget.metricInfo.metricCode,
               'metricValue': widget.metricValue.toString(),
               'setByUser': widget.setByUser.toString()},
             headers: {"token": value ?? ''

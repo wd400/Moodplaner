@@ -114,7 +114,7 @@ class GeneratorAdapter extends TypeAdapter<Generator> {
       generatorName: fields[0] as String?,
       generatorId: fields[1] as int?,
       measures: (fields[2] as Map).map((dynamic k, dynamic v) =>
-          MapEntry(k as int, (v as List).cast<double?>())),
+          MapEntry(k as String, (v as List).cast<double?>())),
     )
       ..lastModif = fields[3] as DateTime
       ..todel = fields[4] as bool;

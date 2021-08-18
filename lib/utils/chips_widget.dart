@@ -26,24 +26,24 @@ class _ChipDemoState extends State<ChipWidget> {
         itemCount: graphData.generator.measures.length,
         itemBuilder: (BuildContext context, int index) {
 
-          int key = graphData.generator.measures.keys.elementAt(index);
+          String key = graphData.generator.measures.keys.elementAt(index);
           if (graphData.generator.measures.length==1){
             _choiceIndex=0;
-            context.read(currentMetricIdProvider).metricId=key;
+            context.read(currentMetricCodeProvider).metricCode=key;
           }
           return InputChip(
             selected: _choiceIndex == index,
             padding: EdgeInsets.all(2.0),
-            label: Text(METRICS[key].name),
-            backgroundColor: METRICS[key].color,
-            selectedColor: METRICS[key].color,
+            label: Text(METRICS[key]!.name),
+            backgroundColor: METRICS[key]!.color,
+            selectedColor: METRICS[key]!.color,
 
 
 
             onSelected: (bool selected) {
               setState(() {
                 _choiceIndex = selected ? index : null;
-                context.read(currentMetricIdProvider).update(metricId: selected?key:null);
+                context.read(currentMetricCodeProvider).update(metricCode: selected?key:null);
               });
             },
             onDeleted: () {
@@ -52,7 +52,7 @@ class _ChipDemoState extends State<ChipWidget> {
     setState(() {
       _choiceIndex = null;
     });
-                context.read(currentMetricIdProvider).update(metricId: null);
+                context.read(currentMetricCodeProvider).update(metricCode: null);
               }
             },
           );

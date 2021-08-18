@@ -34,6 +34,7 @@ class BlacklistTracks  extends StatelessWidget {
                 title: Text(track.getName()),
                 trailing: IconButton(icon: Icon(Icons.remove), onPressed: () {
                   track.todel = false;
+                  track.synced=false;
                   track.save();
                 },
 

@@ -47,6 +47,15 @@ Future<bool> goodToken() async{
    return false;
 }
 
+sendTrackRequest(Track track) async {
+  var res2 = await sendFile(track.filePath!, '$SERVER_IP/synctrack');
+  if (res2.statusCode == 200) {
+    track.synced = true;
+    track.save();
+  }
+}
+
+
 
 void syncTracks() async {
   Box<Track> trackBox=Hive.box<Track>('tracks');
@@ -65,14 +74,7 @@ if(res.statusCode == 200) {
   }
   for (String trackHash in hashs) {
     Track track = trackBox.get(trackHash)!;
-    var res2 = await sendFile(track.filePath!, '$SERVER_IP/synctrack');
-    if (res2.statusCode == 200) {
-      track.synced = true;
-      track.save();
-    } else {
-      //fail
-      return;
-    }
+    sendTrackRequest(track);
   }
 } else {
 //fail
@@ -197,7 +199,7 @@ void syncGenerators()async {
         }
         newgenerator.todel=false;
         newgenerator.generatorName=ret['title'];
-        newgenerator.measures=ret['metrics'].map<int, List<double?>>((k, v) => MapEntry<int, List<double?>>(int.parse(k),  v.cast<double?>()   ));
+        newgenerator.measures=ret['metrics'].map<String, List<double?>>((k, v) => MapEntry<String, List<double?>>(k,  v.cast<double?>()   ));
         newgenerator.lastModif=DateTime.parse(ret['lastmodified']);
  //       newgenerator.lastSync=syncDate;
         newgenerator.save();

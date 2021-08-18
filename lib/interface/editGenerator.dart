@@ -235,7 +235,7 @@ class _CollectionGeneratorState extends State<CollectionGenerator> {
                           context: context,
                           builder: (BuildContext context) =>     MultiSelectDialog(
     initialValue: context.read(graphDataProvider).generator.measures.keys.toList(),
-    items: METRICS.map((value) => MultiSelectItem<int?>(value.metricId,value.name)).toList(),
+    items: METRICS.keys.map((value) => MultiSelectItem<String?>(METRICS[value]!.metricCode,METRICS[value]!.name)).toList(),
     listType: MultiSelectListType.CHIP,
     onConfirm: (values) {
   //  if (values.isNotEmpty) {

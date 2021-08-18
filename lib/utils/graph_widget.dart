@@ -113,9 +113,9 @@ class _DrawableBoardState extends State<DrawableBoard> {
 
   void updatepoints(double dx, double dy) {
 
-    int? metricId = context.read(currentMetricIdProvider).metricId;
+    String? metricCode = context.read(currentMetricCodeProvider).metricCode;
 
-    if (metricId==null){
+    if (metricCode==null){
       return;
     }
     final int index = (max(0, min(dx, widget.constraints.maxWidth)) +
@@ -133,15 +133,15 @@ class _DrawableBoardState extends State<DrawableBoard> {
 
 
     if (context.read(eraseModeProvider).eraser ){
-      if (graph.generator.measures[metricId]![index] != null &&  (currentPos-graph.generator.measures[metricId]![index]!).abs()<0.1) {
-        graph.updateMetric(metricId, index,null);
+      if (graph.generator.measures[metricCode]![index] != null &&  (currentPos-graph.generator.measures[metricCode]![index]!).abs()<0.1) {
+        graph.updateMetric(metricCode, index,null);
         if (graph.lastActivated==index){
           graph.updateLastActivated();
         }
       }
 
     } else {
-      graph.updateMetric(metricId, index,currentPos);
+      graph.updateMetric(metricCode, index,currentPos);
     }
 
 
@@ -221,7 +221,7 @@ class _DrawableBoardState extends State<DrawableBoard> {
 
   void updategraphpan(double dx, double dy) {
     //   print("updade");
-if (context.read(currentMetricIdProvider).metricId==null) {
+if (context.read(currentMetricCodeProvider).metricCode==null) {
   return;
 }
     double margin = dx + autoscrollMargin - widget.constraints.maxWidth;
@@ -309,7 +309,7 @@ if (context.read(currentMetricIdProvider).metricId==null) {
                       height: widget.constraints.maxHeight,
                       offsetXvalues: offsetXvalue,
                               paintSettings:watch(paintSettingsProvider),
-                             metricId: watch(currentMetricIdProvider).metricId ,
+                             metricId: watch(currentMetricCodeProvider).metricCode ,
                               color:Theme.of(context).accentColor));
                       },
 
@@ -336,13 +336,13 @@ class Painter extends CustomPainter {
     ..style = PaintingStyle.stroke..strokeWidth = 2
     ..strokeCap = StrokeCap.round;
 
-  final Map<int,List<double?>> graphData;
+  final Map<String,List<double?>> graphData;
   final double height;
   final int offsetXvalues;
 
   final PaintSettings paintSettings;
 
-  final int? metricId;
+  final String? metricId;
   final Color color;
 
   const Painter(
@@ -361,12 +361,12 @@ class Painter extends CustomPainter {
     double textoffset = 0;
     double? point;
   int i;
-    int metric;
+    String metric;
 
     String toprint;
 
     if (metricId!=null){
-      toprint=" "+  METRICS[metricId!].name;
+      toprint=" "+  METRICS[metricId!]!.name;
       double textHeight=measureText(toprint, dateStyle).height;
 
       drawText(
@@ -378,7 +378,7 @@ class Painter extends CustomPainter {
       drawText(
           canvas,
           Offset(0,size.height - bottomMargin-textHeight),
-          "¬" +  METRICS[metricId!].name   ,
+          "¬" +  METRICS[metricId!]!.name   ,
           dateStyle );
     }
 
@@ -388,7 +388,7 @@ class Painter extends CustomPainter {
         i=0;
 
 
-        stroke.color=METRICS[metric].color;
+        stroke.color=METRICS[metric]!.color;
         for (point in graphData[metric]!) {
           if (point != null) {
             canvas.drawLine(
@@ -407,7 +407,7 @@ class Painter extends CustomPainter {
       for (metric in graphData.keys) {
         points=graphData[metric]!;
 
-        stroke.color=METRICS[metric].color;
+        stroke.color=METRICS[metric]!.color;
 
         for (int i = 0; i < points.length - 1; i++) {
           if (points[i]!=null) {
@@ -490,13 +490,13 @@ late Generator generator;
 
 
   //dans le menu deroulant
-  addMetric(int id){
+  addMetric(String id){
     generator.measures.putIfAbsent(id, () => List.generate(_nbOfXvalues, (i) => null));
 }
 
  updateLastActivated(){
    lastActivated=0;
-  for (int key in generator.measures.keys.toSet()){
+  for (String key in generator.measures.keys.toSet()){
     for (int i=_nbOfXvalues-1;i>=0;--i){
       if (generator.measures[key]![i]!=null){
         lastActivated=max(lastActivated,i);
@@ -506,7 +506,7 @@ late Generator generator;
    }
 
   //chips
-  delMetric(int id){
+  delMetric(String id){
     print("requested");
     print(id);
     generator.measures.remove(id);
@@ -517,7 +517,7 @@ late Generator generator;
     notifyListeners();
 }
   //
-  updateMetric(int id, int idx, double? value){
+  updateMetric(String id, int idx, double? value){
     generator.measures[id]?[idx]=value;
     if (idx>lastActivated){
       lastActivated=idx;
@@ -530,16 +530,16 @@ late Generator generator;
     print(newMetrics);
     print( generator.measures.keys);
 
-    for (int metricId in generator.measures.keys.toSet()) {
-      if (!newMetrics.contains(metricId)) {
-        generator.measures.remove(metricId);
+    for (String metricCode in generator.measures.keys.toSet()) {
+      if (!newMetrics.contains(metricCode)) {
+        generator.measures.remove(metricCode);
       }
     }
 
-    for (Object? metricId in newMetrics) {
-      if (metricId is int) {
-        if (!generator.measures.keys.contains(metricId)) {
-          addMetric(metricId);
+    for (Object? metricCode in newMetrics) {
+      if (metricCode is String) {
+        if (!generator.measures.keys.contains(metricCode)) {
+          addMetric(metricCode);
         }
       }
     }
@@ -550,16 +550,16 @@ late Generator generator;
 
 
 
-final currentMetricIdProvider=ChangeNotifierProvider.autoDispose<CurrentMetricId>(
-      (context) => CurrentMetricId(),
+final currentMetricCodeProvider=ChangeNotifierProvider.autoDispose<CurrentMetricCode>(
+      (context) => CurrentMetricCode(),
 );
 
 
-class CurrentMetricId extends ChangeNotifier {
-  int? metricId;
+class CurrentMetricCode extends ChangeNotifier {
+  String? metricCode;
 
-  void update({required int? metricId}) {
-    this.metricId = metricId;
+  void update({required String? metricCode}) {
+    this.metricCode = metricCode;
     this.notifyListeners();
   }
 }
