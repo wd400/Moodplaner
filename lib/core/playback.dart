@@ -61,6 +61,7 @@ abstract class Playback {
 
 
       } else {
+        print("track path: "+track.filePath!);
         audios.add(
           new AudioPlayer.Audio.file(
               track.filePath!,
