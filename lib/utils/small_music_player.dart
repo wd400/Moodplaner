@@ -73,6 +73,14 @@ class _SmallMusicPlayerState extends State<SmallMusicPlayer> {
     initPlayer();
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    advancedPlayer.dispose();
+    super.dispose();
+  }
+
+
   void initPlayer(){
     advancedPlayer = new AudioPlayer();
 //     audioCache = new AudioCache(fixedPlayer: advancedPlayer,prefix: '');
@@ -80,9 +88,8 @@ class _SmallMusicPlayerState extends State<SmallMusicPlayer> {
       _duration = d;
     }));
 
-    advancedPlayer.onAudioPositionChanged.listen((p) => setState(() {
-      context.read(fractionPlayedProvider).update(value: p);
-    }));
+    advancedPlayer.onAudioPositionChanged.listen((p) =>  context.read(fractionPlayedProvider).update(value: p)
+    );
 
     advancedPlayer.onPlayerCompletion.listen((event) {
       setState(() {playing=false;});

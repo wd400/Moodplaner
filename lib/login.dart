@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'interface/home.dart';
 
 const SERVER_IP = 'http://10.0.2.2:5000';
+//const SERVER_IP = "http://192.168.42.218:5000";
 final storage = FlutterSecureStorage();
 
 void main() {

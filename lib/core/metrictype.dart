@@ -12,13 +12,13 @@ class MetricInfo {
 
  Map<String,MetricInfo> METRICS = {
    'v': MetricInfo(name: "Valence",
-       metricCode: 'm1', color: Colors.brown,binf: "Low",bsup: "High"),
+       metricCode: 'v', color: Colors.brown,binf: "Low",bsup: "High"),
 
    'a': MetricInfo(name: "Arousal",
-       metricCode: 'm2', color: Colors.blue,binf: "Negative",bsup: "Positive"),
+       metricCode: 'a', color: Colors.blue,binf: "Negative",bsup: "Positive"),
 
    'bpm':MetricInfo(name: "BPM",
-       metricCode: 'm3', color: Colors.yellow,binf: "<50",bsup: ">180"),
+       metricCode: 'bpm', color: Colors.yellow,binf: "<50",bsup: ">180"),
 
  };
 

@@ -82,7 +82,7 @@ if(res.statusCode == 200) {
   }
   for (String trackHash in hashs) {
     Track track = trackBox.get(trackHash)!;
-    sendTrackRequest(track);
+    await  sendTrackRequest(track);
   }
 } else {
 //fail

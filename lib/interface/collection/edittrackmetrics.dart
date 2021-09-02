@@ -333,7 +333,7 @@ class _EditTrackMetricsState extends State<EditTrackMetrics> {
 
 
 
-                                  Text('Engine version: ' + ((trackMetrics['version']==null)?  'Not yet analyzed':trackMetrics['version'] ),textAlign: TextAlign.center,),]);
+                                  Text('Engine version: ' + ((trackMetrics['version']==null)?  'Not yet analyzed':trackMetrics['version'].toString() ),textAlign: TextAlign.center,),]);
                             } else if (snapshot.hasError) {
                               return Text("An error occurred");
                             } else {

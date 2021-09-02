@@ -140,7 +140,7 @@ class _DrawableBoardState extends State<DrawableMusicBoard> {
           min((widget.constraints.maxHeight) - bottomMargin, dy))/ widget.constraints.maxHeight;
 
 
-      widget.trackMetrics['usermetrics'][metricCode][0][index]=currentPos;
+      widget.trackMetrics['usermetrics'][metricCode][0][index]=1-currentPos;
       //TODO:refresh painter
       context.read(paintSettingsProvider).notifyListeners();
 
@@ -384,7 +384,7 @@ class Painter extends CustomPainter {
     String toprint;
 
 
-      toprint=" "+  METRICS[metricId!]!.name;
+      toprint=METRICS[metricId!]!.bsup;
       double textHeight=measureText(toprint, dateStyle).height;
 
       drawText(
@@ -396,7 +396,7 @@ class Painter extends CustomPainter {
       drawText(
           canvas,
           Offset(0,size.height - bottomMargin-textHeight),
-          "¬" +  METRICS[metricId!]!.name   ,
+           METRICS[metricId!]!.binf   ,
           dateStyle );
 
 
@@ -414,9 +414,9 @@ class Painter extends CustomPainter {
         for (point in points) {
           if (point != null) {
             canvas.drawLine(
-                Offset(i * offsetXvalues.toDouble(), height * point),
+                Offset(i * offsetXvalues.toDouble(), height * (1-point)),
                 Offset((i * offsetXvalues + offsetXvalues).toDouble(),
-                    height * point),
+                    height * (1-point)),
                 stroke); //TODO;set color
           }
           i++;
@@ -435,21 +435,21 @@ class Painter extends CustomPainter {
         for (int i = 0; i < points.length - 1; i++) {
               canvas.drawLine(
                   Offset(i * offsetXvalues + offsetXvalues / 2,
-                      height * points[i]),
+                      height * (1- points[i])),
                   Offset((i + 1) * offsetXvalues + offsetXvalues / 2,
-                      height * points[i + 1]),
+                      height * (1-points[i + 1])),
                   stroke);
 
             canvas.drawCircle(
                 Offset(i * offsetXvalues + offsetXvalues / 2,
-                    height * points[i]),
+                    height * (1-points[i])),
                 2,
                 stroke);
 
         }
           canvas.drawCircle(
               Offset(offsetXvalues * nbOfXvalues - offsetXvalues / 2,
-                  height * points.last),
+                  height *(1-points.last)),
               2,
               stroke);
 

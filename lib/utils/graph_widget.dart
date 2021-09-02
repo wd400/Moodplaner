@@ -141,7 +141,7 @@ class _DrawableBoardState extends State<DrawableBoard> {
       }
 
     } else {
-      graph.updateMetric(metricCode, index,currentPos);
+      graph.updateMetric(metricCode, index,1-currentPos);
     }
 
 
@@ -366,7 +366,7 @@ class Painter extends CustomPainter {
     String toprint;
 
     if (metricId!=null){
-      toprint=" "+  METRICS[metricId!]!.name;
+      toprint= METRICS[metricId!]!.bsup;
       double textHeight=measureText(toprint, dateStyle).height;
 
       drawText(
@@ -378,13 +378,14 @@ class Painter extends CustomPainter {
       drawText(
           canvas,
           Offset(0,size.height - bottomMargin-textHeight),
-          "¬" +  METRICS[metricId!]!.name   ,
+         METRICS[metricId!]!.binf   ,
           dateStyle );
     }
 
     if (paintSettings.bargraph) {
 
       for (metric in graphData.keys) {
+        print("METRIC "+metric.toString());
         i=0;
 
 
@@ -392,9 +393,9 @@ class Painter extends CustomPainter {
         for (point in graphData[metric]!) {
           if (point != null) {
             canvas.drawLine(
-                Offset(i * offsetXvalues.toDouble(), height * point),
+                Offset(i * offsetXvalues.toDouble(), height * (1-point)),
                 Offset((i * offsetXvalues + offsetXvalues).toDouble(),
-                    height * point),
+                    height * (1-point)),
                 stroke); //TODO;set color
           }
           i++;
@@ -405,6 +406,7 @@ class Painter extends CustomPainter {
       textoffset = offsetXvalues.toDouble() / 2;
      List<double?> points;
       for (metric in graphData.keys) {
+        print("METRIC2 "+metric.toString());
         points=graphData[metric]!;
 
         stroke.color=METRICS[metric]!.color;
@@ -414,14 +416,14 @@ class Painter extends CustomPainter {
             if (points[i + 1]!=null) {
               canvas.drawLine(
                   Offset(i * offsetXvalues + offsetXvalues / 2,
-                      height * points[i]!),
+                      height * (1-points[i]!)),
                   Offset((i + 1) * offsetXvalues + offsetXvalues / 2,
-                      height * points[i + 1]!),
+                      height * (1-points[i + 1]!)),
                   stroke);
             }
             canvas.drawCircle(
                 Offset(i * offsetXvalues + offsetXvalues / 2,
-                    height * points[i]!),
+                    height * (1-points[i]!)),
                 2,
                 stroke);
           }
@@ -429,7 +431,7 @@ class Painter extends CustomPainter {
         if (points.last !=null) {
           canvas.drawCircle(
               Offset(offsetXvalues * _nbOfXvalues - offsetXvalues / 2,
-                  height * points.last!),
+                  height * (1-points.last!)),
               2,
               stroke);
         }

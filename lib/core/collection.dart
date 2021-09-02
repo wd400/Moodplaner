@@ -6,6 +6,7 @@ import 'package:moodplaner/core/synchronization.dart';
 import 'package:moodplaner/utils/methods.dart';
 import 'package:path/path.dart' as path;
 import 'package:http/http.dart' as http;
+import 'package:permission_handler/permission_handler.dart';
 import '../login.dart';
 import 'mediatype.dart';
 
@@ -46,12 +47,12 @@ class Collection extends ChangeNotifier {
     _collection.collectionDirectory = collectionDirectory;
     _collection.cacheDirectory = cacheDirectory;
     _collection.collectionSortType = collectionSortType;
-    if (!await _collection.collectionDirectory.exists()) await _collection.collectionDirectory.create(recursive: true);
+  //  if (!await _collection.collectionDirectory.exists()) await _collection.collectionDirectory.create(recursive: true);
     if (!await Directory(path.join(_collection.cacheDirectory.path, 'albumArts')).exists()) {
-      await Directory(path.join(_collection.cacheDirectory.path, 'albumArts')).create(recursive: true);
-      await new File(
-        path.join(cacheDirectory.path, 'albumArts', 'defaultAlbumArt' + '.PNG'),
-      ).writeAsBytes((await rootBundle.load('assets/images/collection-album.jpg')).buffer.asUint8List());
+     // await Directory(path.join(_collection.cacheDirectory.path, 'albumArts')).create(recursive: true);
+    //  await new File(
+  //      path.join(cacheDirectory.path, 'albumArts', 'defaultAlbumArt' + '.PNG'),
+  //    ).writeAsBytes((await rootBundle.load('assets/images/collection-album.jpg')).buffer.asUint8List());
     }
     await _collection.refresh();
   }
@@ -156,10 +157,28 @@ print(result);
     this.notifyListeners();
   }
 
+recursiveListFiles(Directory root){
+  List<File> result=[];
+  print(root.path.toString());
+    for (FileSystemEntity object in root.listSync(recursive: false,followLinks: false)){
+      if (Methods.isFileSupported(object) && object is File) {
+        result.add(object);
+      } else if (object is Directory){
+          try{
+            result.addAll(recursiveListFiles(object));
+          } on Exception catch (_) {
+            print('Fail for '+object.path.toString());
+          }
+        }
+    }
+return result;
+
+}
+
 
   Future<void> refresh({void Function(int completed, int total, bool isCompleted)? onProgress}) async {
-    if (! await this.cacheDirectory.exists()) await this.cacheDirectory.create(recursive: true);
-    if (! await this.collectionDirectory.exists()) await this.collectionDirectory.create(recursive: true);
+  //  if (! await this.cacheDirectory.exists()) await this.cacheDirectory.create(recursive: true);
+ //   if (! await this.collectionDirectory.exists()) await this.collectionDirectory.create(recursive: true);
 
 
   //  if (!await File(path.join(this.cacheDirectory.path, 'collection.JSON')).exists()) {
@@ -167,12 +186,27 @@ print(result);
   //    onProgress?.call(0, 0, true);
 //    }
   //  else {
+    var status = await Permission.storage.status;
+    if (!status.isGranted) {
+      await Permission.storage.request();
+    }
+
+
       List<File> collectionDirectoryContent = <File>[];
+    /*
       for (FileSystemEntity object in this.collectionDirectory.listSync(recursive: true)) {
         if (Methods.isFileSupported(object) && object is File) {
           collectionDirectoryContent.add(object);
         }
       }
+
+     */
+try {
+  collectionDirectoryContent = recursiveListFiles(collectionDirectory);
+} catch (e)     {
+  print(e);
+};
+    print("tout collecté");
  //     if (collectionDirectoryContent.length != this._tracks.length) {
         for (int index = 0; index < collectionDirectoryContent.length; index++) {
           File file = collectionDirectoryContent[index];
@@ -185,7 +219,7 @@ print(result);
      // }
       onProgress?.call(collectionDirectoryContent.length, collectionDirectoryContent.length, true);
    // }
-
+print("fin refresh");
    await syncAll();
     this.notifyListeners();
   }

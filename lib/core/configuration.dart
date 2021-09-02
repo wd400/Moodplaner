@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:moodplaner/constants/language.dart';
 import 'package:moodplaner/interface/changenotifiers.dart';
-
+import 'package:path_provider/path_provider.dart';
+import 'package:path_provider/path_provider.dart';
 import 'collection.dart';
 
 
@@ -28,8 +30,8 @@ abstract class ConfigurationKeys {
 
 
 
-const Map<String, dynamic> DEFAULT_CONFIGURATION = {
-  'collectionDirectory': '/storage/emulated/0/Music',
+ Map<String, dynamic> DEFAULT_CONFIGURATION = {
+  'collectionDirectory': getApplicationDocumentsDirectory(),
   'homeAddress': '',
   'languageRegion': 0,
   'accent': 0,
