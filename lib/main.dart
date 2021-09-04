@@ -23,7 +23,7 @@ import 'login.dart';
 
 
 const String TITLE   = 'moodPlaner';
-const String VERSION = '0.0.8';
+const String VERSION = '0.1';
 const String AUTHOR  = 'dev';
 const String LICENSE = 'GPL-3.0';
 
@@ -90,6 +90,9 @@ void main() async {
 
   Timer.periodic(Duration(seconds: 60), (timer) async {
     await syncAll();
+
+
+
   });
 
 
@@ -106,3 +109,10 @@ void main() async {
 //    );
 //  }
 }
+
+final snackBar = SnackBar(content: Text('Yay! A SnackBar!'));
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+
+

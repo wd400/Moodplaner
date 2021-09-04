@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:moodplaner/constants/language.dart';
 import 'package:moodplaner/core/collection.dart';
 import 'package:moodplaner/core/fileintent.dart';
+import 'package:moodplaner/core/synchronization.dart';
 import 'package:moodplaner/interface/settings/settings.dart';
 
 
@@ -42,6 +43,32 @@ class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindin
     super.initState();
     if (fileIntent.tabIndex == 0) fileIntent.play();
     WidgetsBinding.instance!.addObserver(this);
+
+    checkNewVersion().then((value) {
+
+      // show the dialog
+      if (value) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(language!.NEW_VERSION_AVAILABLE),
+              actions: [
+                TextButton(
+                  child: Text(language!.STRING_OK),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+      //  ScaffoldMessenger.of(context).showSnackBar(newVersionSnackBar);
+
+    });
+
   }
 
   @override

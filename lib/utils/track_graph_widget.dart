@@ -7,12 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moodplaner/core/collection.dart';
-import 'package:moodplaner/core/mediatype.dart';
 import 'package:moodplaner/core/metrictype.dart';
 import 'package:moodplaner/interface/collection/edittrackmetrics.dart';
-import 'package:moodplaner/interface/editGenerator.dart';
 import 'package:moodplaner/utils/small_music_player.dart';
 
+import 'package:flutter/cupertino.dart';
 
 //const deltaTime = Duration(minutes: 2);
 
@@ -142,7 +141,7 @@ class _DrawableBoardState extends State<DrawableMusicBoard> {
 
       widget.trackMetrics['usermetrics'][metricCode][0][index]=1-currentPos;
       //TODO:refresh painter
-      context.read(paintSettingsProvider).notifyListeners();
+      context.read(paintTrackSettingsProvider).notifyListeners();
 
 
       //  _streamer.add(_points);
@@ -276,7 +275,7 @@ class _DrawableBoardState extends State<DrawableMusicBoard> {
         child: Consumer(
             builder: (BuildContext context, T Function<T>(ProviderBase<Object?, T>) watch, Widget? child) {
         //      widget.trackMetrics['duration']
-              offsetXvalue=(watch(zoomTrackProvider).value * 50).floor()+1;
+              offsetXvalue=(watch(zoomTrackProvider).value * 200).floor()+1;
 
               if (_scrollController.hasClients) {
                 double newvalue = min(_scrollController.offset,max(0,size.width-widget.constraints.maxWidth))+random.nextDouble()/10;
@@ -309,7 +308,7 @@ class _DrawableBoardState extends State<DrawableMusicBoard> {
                                   trackMeasures: widget.trackMetrics,
                                   height: widget.constraints.maxHeight,
                                   offsetXvalues: offsetXvalue,
-                                  paintSettings:watch(paintSettingsProvider),
+                                  paintSettings:watch(paintTrackSettingsProvider),
                                   metricId: watch(musicMetricNameProvider).metricName ,
                                   color:Theme.of(context).accentColor,
                               nbOfXvalues: nbOfXvalues,
@@ -345,7 +344,7 @@ class Painter extends CustomPainter {
   final double height;
   final int offsetXvalues;
 
-  final PaintSettings paintSettings;
+  final PaintTrackSettings paintSettings;
 
   final String? metricId;
   final Color color;
@@ -421,6 +420,7 @@ class Painter extends CustomPainter {
           }
           i++;
         }
+        stroke.color=Colors.black;
       }
 
     } else {
@@ -453,6 +453,7 @@ class Painter extends CustomPainter {
               2,
               stroke);
 
+        stroke.color=Colors.black;
       }
     }
 
@@ -460,7 +461,7 @@ class Painter extends CustomPainter {
 
     //TODO afficher que autour de la fenêtre visible
     //TODO ajouter légende
-    int nbTraits = deltaTimePix ~/ offsetXvalues;
+    int nbTraits = max(1,deltaTimePix ~/ offsetXvalues);
     for (int i = 0;
     i <= offsetXvalues * nbOfXvalues;
     i += offsetXvalues * nbTraits) {
@@ -478,9 +479,9 @@ class Painter extends CustomPainter {
     var x=posCursor.inMicroseconds*offsetXvalues/deltaTime.inMicroseconds;
     print("X "+x.toString());
     canvas.drawLine(
-        Offset(offsetXvalues/2+x,
+        Offset(x,
             0),
-        Offset(offsetXvalues/2+x,
+        Offset(x,
             size.height),
         stroke..color=Colors.red);
   }

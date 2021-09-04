@@ -2,15 +2,18 @@
 import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/all.dart';
 
 
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
+import 'package:moodplaner/constants/language.dart';
+import 'package:moodplaner/main.dart';
 
 import '../login.dart';
 import 'mediatype.dart';
 
-final noInternet = SnackBar(content: Text('No internet'));
+final noInternet = SnackBar(content: Text(language!.STRING_NO_INTERNET));
 
  sendFile(String filename, String url) async {
   var request = MultipartRequest('POST', Uri.parse(url));
@@ -47,16 +50,34 @@ Future<bool> goodToken() async{
    return false;
 }
 
-sendTrackRequest(Track track) async {
+Future<void> sendTrackRequest(Track track) async {
   var res2 = await sendFile(track.filePath!, '$SERVER_IP/synctrack');
   if (res2.statusCode == 200) {
     track.synced = true;
     track.save();
   }
 }
+bool disableCheck=false;
+
+
+
+Future<bool>  checkNewVersion() async {
+  if (disableCheck) {
+    return false;
+  }
+  var res = await get( Uri.parse( '$SERVER_IP/version'));
+  print(res.body);
+  if (res.statusCode == 200 && res.body!=VERSION) {
+    disableCheck=true;
+    return true;
+
+  }
+  return false;
+}
 
 
 Future<void> syncAll() async {
+
   if (await storage.read(key: "token")!=null) {
   syncTracks();
   syncPlaylists();
@@ -80,6 +101,9 @@ if(res.statusCode == 200) {
     alreadySynced.save();
 
   }
+  List<Future> futures = hashs.map((e) => sendTrackRequest(trackBox.get(e)!)).toList();
+  await Future.wait(futures);
+
   for (String trackHash in hashs) {
     Track track = trackBox.get(trackHash)!;
     await  sendTrackRequest(track);

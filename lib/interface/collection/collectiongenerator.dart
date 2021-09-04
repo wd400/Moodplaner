@@ -43,12 +43,12 @@ class CollectionGeneratorTab extends StatelessWidget {
                                         .start,
                                     children: [
                                       Text(
-                                          language!.STRING_PLAYLISTS,
+                                          language!.STRING_GENERATORS,
                                           style: Theme
                                               .of(context)
                                               .textTheme
                                               .headline1),
-                                      Text(language!.STRING_PLAYLISTS_SUBHEADER,
+                                      Text(language!.STRING_GENERATORS_SUBHEADER,
                                           style: Theme
                                               .of(context)
                                               .textTheme
@@ -89,7 +89,7 @@ class CollectionGeneratorTab extends StatelessWidget {
                                           .color,
                                     ),
                                     title: Text(
-                                        language!.STRING_PLAYLISTS_CREATE,
+                                        language!.STRING_GENERATORS_CREATE,
                                         style: Theme
                                             .of(context)
                                             .textTheme
@@ -125,9 +125,9 @@ class CollectionGeneratorTab extends StatelessWidget {
                                               },
                                               decoration: InputDecoration(
                                                 labelText: language!
-                                                    .STRING_PLAYLISTS_TEXT_FIELD_LABEL,
+                                                    .STRING_GENERATORS_TEXT_FIELD_LABEL,
                                                 hintText: language!
-                                                    .STRING_PLAYLISTS_TEXT_FIELD_HINT,
+                                                    .STRING_GENERATORS_TEXT_FIELD_HINT,
                                                 labelStyle: TextStyle(
                                                     color: Theme
                                                         .of(context)
@@ -236,7 +236,7 @@ class CollectionGeneratorTab extends StatelessWidget {
                                                         AlertDialog(
                                                           title: Text(
                                                             language!
-                                                                .STRING_LOCAL_ALBUM_VIEW_PLAYLIST_DELETE_DIALOG_HEADER,
+                                                                .STRING_GENERATOR_DELETE_DIALOG_HEADER,
                                                             style: Theme
                                                                 .of(subContext)
                                                                 .textTheme
@@ -244,7 +244,7 @@ class CollectionGeneratorTab extends StatelessWidget {
                                                           ),
                                                           content: Text(
                                                             language!
-                                                                .STRING_LOCAL_ALBUM_VIEW_PLAYLIST_DELETE_DIALOG_BODY,
+                                                                .STRING_GENERATOR_DELETE_DIALOG_BODY,
                                                             style: Theme
                                                                 .of(subContext)
                                                                 .textTheme

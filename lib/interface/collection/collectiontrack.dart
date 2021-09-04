@@ -198,7 +198,7 @@ class CollectionTrackTab extends StatelessWidget {
                                                                       dynamic> playlistBox,
                                                                   Widget? child) {
                                                                 var playlistsKeys = playlistBox
-                                                                    .keys
+                                                                    .keys.where((element) => ! playlistBox.get(element).todel)
                                                                     .toList();
                                                                 return ListView
                                                                     .builder(
@@ -390,7 +390,7 @@ class CollectionTrackTile extends StatelessWidget {
                 maxLines: 1,
                 softWrap: false,
               ),
-              subtitle: Text(this.track.albumArtistName??'Unknown artist',
+              subtitle: Text(this.track.albumArtistName??'',
                 style: Theme
                     .of(context)
                     .textTheme

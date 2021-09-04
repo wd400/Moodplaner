@@ -93,15 +93,15 @@ class LanguageRegion {
   );
 
   static const values = <LanguageRegion>[
-    enUs,
-    ruRu,
-    slSi,
-    ptBr,
-    hiIn,
-    deDe,
-    nlNl,
-    svSe,
-    frFr
+    enUs, //English us
+    ruRu, //Russian
+    slSi, //Slovenian Slovene
+    ptBr, //Portuguese (Brazil)
+    hiIn, //Hindi
+    deDe, //German
+    nlNl, //Dutch
+    svSe, //Swedish
+    frFr  //French
   ];
 
   int get index => values.indexOf(this);
@@ -272,16 +272,32 @@ class Language extends Strings with ChangeNotifier {
         this.STRING_SELECTED_DIRECTORY                              = 'Selected directory:';
 
 
-        this.STRING_METRIC_ROCK                                     = 'Rock';
 
-        this.STRING_METRIC_BLUES                                 = 'Blues';
 
-        this.STRING_METRIC_HAPPY                               = 'Happy';
+            this.STRING_GENERATORS='Generators';
+            this.STRING_EDIT_MEASURES='Edit measures';
+            this.STRING_SETTING_ACCOUNT_TITLE='Account';
+            this.STRING_VALENCE='Valence';
+            this.STRING_AROUSAL='Arousal';
+            this.STRING_BPM='BPM';
+            this.STRING_NO_INTERNET='No internet';
+            this.STRING_GENERATORS_SUBHEADER='Your generators';
+            this.STRING_GENERATORS_CREATE='Create a new generator';
+            this.STRING_GENERATORS_TEXT_FIELD_LABEL='Generator name';
+            this.STRING_GENERATORS_TEXT_FIELD_HINT='Name for your new generator';
+            this.STRING_GENERATOR_DELETE_DIALOG_HEADER='Are you sure';
+            this.STRING_GENERATOR_DELETE_DIALOG_BODY='Do you want to remove this generator saved on your device?';
+            this.STRING_LOG_IN='Log in';
+            this.STRING_LOG_OUT='Log out';
+            this.STRING_DELETE_ACCOUNT='Delete account';
+            this.DELETE_ACCOUNT_HEADER='Delete account';
+            this.DELETE_ACCOUNT_WARNING='"All your data stored in the cloud will be permanently deleted"';
+        this.NEW_VERSION_AVAILABLE = 'A new version is available!';
+        this.STRING_INF_VALENCE = 'Low';
+        this.STRING_SUP_VALENCE = 'High';
+        this.STRING_INF_AROUSAL = 'Negative';
+        this.STRING_SUP_AROUSAL = 'Positive';
 
-        this.STRING_GENERATORS                                      = 'generators';
-        this.STRING_EDIT_MEASURES                                   = 'Edit measures';
-
-        this.STRING_SETTING_ACCOUNT_TITLE                           = "Account";
       }
       break;
       case LanguageRegion.ruRu: {
@@ -434,6 +450,31 @@ class Language extends Strings with ChangeNotifier {
         this.STRING_SETTING_MISCELLANEOUS_ENABLE_IOS_TITLE          = 'Включить механики iOS';
         this.STRING_SETTING_MISCELLANEOUS_ENABLE_IOS_SUBTITLE       = 'Задать платформу TargetPlatform.iOS';
         this.STRING_SELECTED_DIRECTORY                              = 'Selected directory:';
+
+
+        this.STRING_GENERATORS='Генераторы';
+        this.STRING_EDIT_MEASURES='Редактировать меры';
+        this.STRING_SETTING_ACCOUNT_TITLE='Счет';
+        this.STRING_VALENCE='Валентность';
+        this.STRING_AROUSAL='Возбуждение';
+        this.STRING_BPM='BPM';
+        this.STRING_NO_INTERNET='Нет интернета';
+        this.STRING_GENERATORS_SUBHEADER='Ваши генераторы';
+        this.STRING_GENERATORS_CREATE='Создать новый генератор';
+        this.STRING_GENERATORS_TEXT_FIELD_LABEL='Имя генератора';
+        this.STRING_GENERATORS_TEXT_FIELD_HINT='Имя для вашего нового генератора';
+        this.STRING_GENERATOR_DELETE_DIALOG_HEADER='Вы уверены';
+        this.STRING_GENERATOR_DELETE_DIALOG_BODY='Вы хотите удалить этот генератор, сохраненный на вашем устройстве?';
+        this.STRING_LOG_IN='Войдите в систему';
+        this.STRING_LOG_OUT='Выйти из системы';
+        this.STRING_DELETE_ACCOUNT='Удалить аккаунт';
+        this.DELETE_ACCOUNT_HEADER='Удалить аккаунт';
+        this.DELETE_ACCOUNT_WARNING='Все ваши данные, хранящиеся в облаке, будут удалены навсегда';
+        this.NEW_VERSION_AVAILABLE = 'Доступна новая версия!';
+        this.STRING_INF_VALENCE = 'Низкий';
+        this.STRING_SUP_VALENCE = 'Высокий';
+        this.STRING_INF_AROUSAL = 'Отрицательный';
+        this.STRING_SUP_AROUSAL = 'Положительный';
 
       }
       break;
@@ -588,6 +629,31 @@ class Language extends Strings with ChangeNotifier {
         this.STRING_SETTING_MISCELLANEOUS_ENABLE_IOS_TITLE          = 'Vključi iOS uporabniški vmesnik';
         this.STRING_SETTING_MISCELLANEOUS_ENABLE_IOS_SUBTITLE       = 'Nastavi platformo na TargetPlatform.iOS';
         this.STRING_SELECTED_DIRECTORY                              = 'Selected directory:';
+
+        this.STRING_GENERATORS='Generatorji';
+        this.STRING_EDIT_MEASURES="Ukrepi urejanja";
+        this.STRING_SETTING_ACCOUNT_TITLE="Račun";
+        this.STRING_VALENCE="Valenca";
+        this.STRING_AROUSAL="Arousal";
+        this.STRING_BPM="BPM";
+        this.STRING_NO_INTERNET="Ni interneta";
+        this.STRING_GENERATORS_SUBHEADER="Vaši generatorji";
+        this.STRING_GENERATORS_CREATE="Ustvari nov generator";
+        this.STRING_GENERATORS_TEXT_FIELD_LABEL="Ime generatorja";
+        this.STRING_GENERATORS_TEXT_FIELD_HINT="Ime za vaš novi generator";
+        this.STRING_GENERATOR_DELETE_DIALOG_HEADER="Ali ste prepričani?";
+        this.STRING_GENERATOR_DELETE_DIALOG_BODY="Ali želite odstraniti ta generator, shranjen v vaši napravi?";
+        this.STRING_LOG_IN="Prijavite se";
+        this.STRING_LOG_OUT="Odjavi se";
+        this.STRING_DELETE_ACCOUNT="Izbriši račun";
+        this.DELETE_ACCOUNT_HEADER="Izbriši račun";
+        this.DELETE_ACCOUNT_WARNING="Vsi vaši podatki, shranjeni v oblaku, bodo trajno izbrisani";
+
+        this.NEW_VERSION_AVAILABLE = 'Na voljo je nova različica!';
+        this.STRING_INF_VALENCE = 'Nizko';
+        this.STRING_SUP_VALENCE = 'Visoko';
+        this.STRING_INF_AROUSAL = 'Negativno';
+        this.STRING_SUP_AROUSAL = 'Pozitivno';
       }
       break;
       case LanguageRegion.ptBr: {
@@ -740,6 +806,32 @@ class Language extends Strings with ChangeNotifier {
         this.STRING_SETTING_MISCELLANEOUS_ENABLE_IOS_TITLE          = 'Ativar mecânicas do iOS';
         this.STRING_SETTING_MISCELLANEOUS_ENABLE_IOS_SUBTITLE       = 'Mudar plataforma para TargetPlatform.iOS';
         this.STRING_SELECTED_DIRECTORY                              = 'Selected directory:';
+
+        this.STRING_GENERATORS='Generators';
+        this.STRING_EDIT_MEASURES='Edit measures';
+        this.STRING_SETTING_ACCOUNT_TITLE='Account';
+        this.STRING_VALENCE='Valence';
+        this.STRING_AROUSAL='Arousal';
+        this.STRING_BPM='BPM';
+        this.STRING_NO_INTERNET='No Internet';
+        this.STRING_GENERATORS_SUBHEADER='Your generators';
+        this.STRING_GENERATORS_CREATE='Criar um novo gerador';
+        this.STRING_GENERATORS_TEXT_FIELD_LABEL='Nome do gerador';
+        this.STRING_GENERATORS_TEXT_FIELD_HINT='Nome do seu novo gerador';
+        this.STRING_GENERATOR_DELETE_DIALOG_HEADER='Tem certeza';
+        this.STRING_GENERATOR_DELETE_DIALOG_BODY='Você quer remover este gerador salvo em seu dispositivo?';
+        this.STRING_LOG_IN='Log in';
+        this.STRING_LOG_OUT='Log out';
+        this.STRING_DELETE_ACCOUNT='Delete account';
+        this.DELETE_ACCOUNT_HEADER='Delete account';
+        this.DELETE_ACCOUNT_WARNING='Todos os seus dados armazenados na nuvem serão permanentemente apagados';
+
+        this.NEW_VERSION_AVAILABLE = 'Uma nova versão está disponível!';
+        this.STRING_INF_VALENCE = 'Baixo';
+        this.STRING_SUP_VALENCE = 'Alto';
+        this.STRING_INF_AROUSAL = 'Negativo';
+        this.STRING_SUP_AROUSAL = 'Positivo';
+
       }
       break;
       case LanguageRegion.hiIn: {
@@ -892,6 +984,32 @@ class Language extends Strings with ChangeNotifier {
         this.STRING_SETTING_MISCELLANEOUS_ENABLE_IOS_TITLE          = 'iOS मोड';
         this.STRING_SETTING_MISCELLANEOUS_ENABLE_IOS_SUBTITLE       = 'platform को TargetPlatform.iOS करें';
         this.STRING_SELECTED_DIRECTORY                              = 'Selected directory:';
+
+    this.STRING_GENERATORS='जेनरेटर';
+    this.STRING_EDIT_MEASURES='उपाय संपादित करें';
+    this.STRING_SETTING_ACCOUNT_TITLE='खाता';
+    this.STRING_VALENCE='वैलेंस';
+    this.STRING_AROUSAL='उत्तेजना';
+    this.STRING_BPM='बीपीएम';
+    this.STRING_NO_INTERNET='कोई इंटरनेट नहीं';
+    this.STRING_GENERATORS_SUBHEADER='आपके जनरेटर';
+    this.STRING_GENERATORS_CREATE='एक नया जनरेटर बनाएँ';
+    this.STRING_GENERATORS_TEXT_FIELD_LABEL='जेनरेटर का नाम';
+    this.STRING_GENERATORS_TEXT_FIELD_HINT='आपके नए जनरेटर का नाम';
+    this.STRING_GENERATOR_DELETE_DIALOG_HEADER='क्या आप निश्चित हैं';
+    this.STRING_GENERATOR_DELETE_DIALOG_BODY='क्या आप अपने उपकरण पर सहेजे गए इस जनरेटर को हटाना चाहते हैं?';
+    this.STRING_LOG_IN='लॉग इन';
+    this.STRING_LOG_OUT='लॉग आउट';
+    this.STRING_DELETE_ACCOUNT='खाता हटाएं';
+    this.DELETE_ACCOUNT_HEADER='खाता हटाएं';
+    this.DELETE_ACCOUNT_WARNING='"क्लाउड में संग्रहीत आपका सारा डेटा स्थायी रूप से हटा दिया जाएगा"';
+
+        this.NEW_VERSION_AVAILABLE = 'एक नया संस्करण उपलब्ध है!';
+        this.STRING_INF_VALENCE = 'निम्न';
+        this.STRING_SUP_VALENCE = 'उच्च';
+        this.STRING_INF_AROUSAL = 'नकारात्मक';
+        this.STRING_SUP_AROUSAL = 'सकारात्मक';
+
       }
       break;
       case LanguageRegion.deDe: {
@@ -1044,7 +1162,33 @@ class Language extends Strings with ChangeNotifier {
         this.STRING_SETTING_MISCELLANEOUS_ENABLE_IOS_TITLE          = 'Enable iOS mechanics';
         this.STRING_SETTING_MISCELLANEOUS_ENABLE_IOS_SUBTITLE       = 'Set platform to TargetPlatform.iOS';
         this.STRING_SELECTED_DIRECTORY                              = 'Selected directory:';
-      } 
+
+        this.STRING_GENERATORS='Generatoren';
+        this.STRING_EDIT_MEASURES='Maßnahmen bearbeiten';
+        this.STRING_SETTING_ACCOUNT_TITLE='Konto';
+        this.STRING_VALENCE='Wertigkeit';
+        this.STRING_AROUSAL='Erregung';
+        this.STRING_BPM='BPM';
+        this.STRING_NO_INTERNET='Kein Internet';
+        this.STRING_GENERATORS_SUBHEADER='Ihre Generatoren';
+        this.STRING_GENERATORS_CREATE='Einen neuen Generator erstellen';
+        this.STRING_GENERATORS_TEXT_FIELD_LABEL='Generatorname';
+        this.STRING_GENERATORS_TEXT_FIELD_HINT='Name für Ihren neuen Generator';
+        this.STRING_GENERATOR_DELETE_DIALOG_HEADER='Sind Sie sicher';
+        this.STRING_GENERATOR_DELETE_DIALOG_BODY='Möchten Sie diesen auf Ihrem Gerät gespeicherten Generator entfernen?';
+        this.STRING_LOG_IN='Melden Sie sich an';
+        this.STRING_LOG_OUT='Abmelden';
+        this.STRING_DELETE_ACCOUNT='Konto löschen';
+        this.DELETE_ACCOUNT_HEADER='Konto löschen';
+        this.DELETE_ACCOUNT_WARNING='Alle Ihre in der Cloud gespeicherten Daten werden dauerhaft gelöscht';
+
+        this.NEW_VERSION_AVAILABLE = 'Eine neue Version ist verfügbar!';
+        this.STRING_INF_VALENCE = 'Niedrig';
+        this.STRING_SUP_VALENCE = 'Hoch';
+        this.STRING_INF_AROUSAL = 'Negativ';
+        this.STRING_SUP_AROUSAL = 'Positiv';
+
+      }
       break;
       case LanguageRegion.nlNl: {
         this.STRING_INTERNET_ERROR                                  = 'Controleer uw internet verbinding...';
@@ -1196,6 +1340,32 @@ class Language extends Strings with ChangeNotifier {
         this.STRING_SETTING_MISCELLANEOUS_ENABLE_IOS_TITLE          = 'Enable iOS mechanics';
         this.STRING_SETTING_MISCELLANEOUS_ENABLE_IOS_SUBTITLE       = 'Set platform to TargetPlatform.iOS';
         this.STRING_SELECTED_DIRECTORY                              = 'Selected directory:';
+
+        this.STRING_GENERATORS='Generatoren';
+        this.STRING_EDIT_MEASURES='Maatregelen bewerken';
+        this.STRING_SETTING_ACCOUNT_TITLE='Rekening';
+        this.STRING_VALENCE='Valentie';
+        this.STRING_AROUSAL='Arousal';
+        this.STRING_BPM='BPM';
+        this.STRING_NO_INTERNET='Geen internet';
+        this.STRING_GENERATORS_SUBHEADER='Uw generatoren';
+        this.STRING_GENERATORS_CREATE='Maak een nieuwe generator';
+        this.STRING_GENERATORS_TEXT_FIELD_LABEL='Naam generator';
+        this.STRING_GENERATORS_TEXT_FIELD_HINT="Naam voor uw nieuwe generator";
+        this.STRING_GENERATOR_DELETE_DIALOG_HEADER='Weet u het zeker';
+        this.STRING_GENERATOR_DELETE_DIALOG_BODY='Wilt u deze generator verwijderen die op uw apparaat is opgeslagen?';
+        this.STRING_LOG_IN='Inloggen';
+        this.STRING_LOG_OUT='Uitloggen';
+        this.STRING_DELETE_ACCOUNT='Account verwijderen';
+        this.DELETE_ACCOUNT_HEADER='Account verwijderen';
+        this.DELETE_ACCOUNT_WARNING='"Al uw gegevens opgeslagen in de cloud zullen permanent worden verwijderd"';
+
+        this.NEW_VERSION_AVAILABLE = 'Er is een nieuwe versie beschikbaar!';
+        this.STRING_INF_VALENCE = 'Laag';
+        this.STRING_SUP_VALENCE = 'Hoog';
+        this.STRING_INF_AROUSAL = 'Negatief';
+        this.STRING_SUP_AROUSAL = 'Positief';
+
       }
       break;
       case LanguageRegion.svSe: {
@@ -1348,6 +1518,32 @@ class Language extends Strings with ChangeNotifier {
         this.STRING_SETTING_MISCELLANEOUS_ENABLE_IOS_TITLE          = 'Aktivera iOS mekanik';
         this.STRING_SETTING_MISCELLANEOUS_ENABLE_IOS_SUBTITLE       = 'Ange plattform till TargetPlatform.iOS';
         this.STRING_SELECTED_DIRECTORY                              = 'Vald katalog:';
+
+        this.STRING_GENERATORS='Generatorer';
+        this.STRING_EDIT_MEASURES="Redigeringsåtgärder";
+        this.STRING_SETTING_ACCOUNT_TITLE='Konto';
+        this.STRING_VALENCE="Valence";
+        this.STRING_AROUSAL="Upphetsning";
+        this.STRING_BPM='BPM';
+        this.STRING_NO_INTERNET="Inget internet";
+        this.STRING_GENERATORS_SUBHEADER="Dina generatorer";
+        this.STRING_GENERATORS_CREATE="Skapa en ny generator";
+        this.STRING_GENERATORS_TEXT_FIELD_LABEL="Generatornamn";
+        this.STRING_GENERATORS_TEXT_FIELD_HINT="Namn på din nya generator";
+        this.STRING_GENERATOR_DELETE_DIALOG_HEADER="Är du säker";
+        this.STRING_GENERATOR_DELETE_DIALOG_BODY="Vill du ta bort denna generator som sparats på din enhet?";
+        this.STRING_LOG_IN="Logga in";
+        this.STRING_LOG_OUT="Logga ut";
+        this.STRING_DELETE_ACCOUNT="Ta bort konto";
+        this.DELETE_ACCOUNT_HEADER="Radera konto";
+        this.DELETE_ACCOUNT_WARNING="Alla dina uppgifter som lagras i molnet kommer att raderas permanent";
+
+        this.NEW_VERSION_AVAILABLE = 'En ny version är tillgänglig!';
+        this.STRING_INF_VALENCE = 'Låg';
+        this.STRING_SUP_VALENCE = 'Hög';
+        this.STRING_INF_AROUSAL = 'Negativ';
+        this.STRING_SUP_AROUSAL = 'Positivt';
+
       }
       break;
       case LanguageRegion.frFr: {
@@ -1448,7 +1644,7 @@ class Language extends Strings with ChangeNotifier {
         this.STRING_DOWNLOAD_UPDATE                                 = 'TÉLÉCHARGER LA MISE À JOUR';
         this.STRING_SETTING_APP_VERSION_TITLE                       = 'Version';
         this.STRING_SETTING_APP_VERSION_SUBTITLE                    = 'Informations sur la version actuelle de l\'application';
-        this.STRING_SETTING_APP_VERSION_INSTALLED                   = 'Version instalée';
+        this.STRING_SETTING_APP_VERSION_INSTALLED                   = 'Version installée';
         this.STRING_SETTING_APP_VERSION_LATEST                      = 'dernière version';
         this.STRING_MENU                                            = 'Menu';
         this.STRING_SEARCH_COLLECTION                               = 'Chercher collection';
@@ -1500,6 +1696,32 @@ class Language extends Strings with ChangeNotifier {
         this.STRING_SETTING_MISCELLANEOUS_ENABLE_IOS_TITLE          = 'Activer la mécanique iOS';
         this.STRING_SETTING_MISCELLANEOUS_ENABLE_IOS_SUBTITLE       = 'Définir la plate-forme sur TargetPlatform.iOS';
         this.STRING_SELECTED_DIRECTORY                              = 'Répertoire sélectionné:';
+
+        this.STRING_GENERATORS='Générateurs' ;
+        this.STRING_EDIT_MEASURES='Mesures d\'édition' ;
+        this.STRING_SETTING_ACCOUNT_TITLE='Compte' ;
+        this.STRING_VALENCE='Valence' ;
+        this.STRING_AROUSAL='Excitation' ;
+        this.STRING_BPM='BPM' ;
+        this.STRING_NO_INTERNET='Pas d\'internet' ;
+        this.STRING_GENERATORS_SUBHEADER='Vos générateurs' ;
+        this.STRING_GENERATORS_CREATE='Créer un nouveau générateur' ;
+        this.STRING_GENERATORS_TEXT_FIELD_LABEL='Nom du générateur' ;
+        this.STRING_GENERATORS_TEXT_FIELD_HINT='Nom pour votre nouveau générateur' ;
+        this.STRING_GENERATOR_DELETE_DIALOG_HEADER='Are you sure' ;
+        this.STRING_GENERATOR_DELETE_DIALOG_BODY='Voulez-vous supprimer ce générateur enregistré sur votre appareil?' ;
+        this.STRING_LOG_IN='Se connecter' ;
+        this.STRING_LOG_OUT='Se connecter' ;
+        this.STRING_LOG_OUT='Se déconnecter' ;
+        this.STRING_DELETE_ACCOUNT='Supprimer le compte' ;
+        this.DELETE_ACCOUNT_HEADER='Supprimer le compte' ;
+        this.DELETE_ACCOUNT_WARNING='Toutes vos données stockées dans le cloud seront définitivement supprimées' ;
+        this.NEW_VERSION_AVAILABLE='Une nouvelle version est disponible!';
+        this.STRING_INF_VALENCE='Bas';
+        this.STRING_SUP_VALENCE='Haut';
+        this.STRING_INF_AROUSAL='Negative';
+        this.STRING_SUP_AROUSAL='Positive';
+
       }
       break;
     }

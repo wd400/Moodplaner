@@ -54,7 +54,7 @@ abstract class Playback {
               headers: {"token": (await storage.read(key: "token"))!},
               metas: new AudioPlayer.Metas(
                 title: track.getName(),
-                album: track.albumArtistName ?? 'Unknown artist',
+                album: track.albumArtistName ??'',
               )
           ),
         );
@@ -68,7 +68,7 @@ abstract class Playback {
               metas: new AudioPlayer.Metas(
 
                 title: track.getName(),
-                album: track.albumArtistName ?? 'Unknown artist',
+                album: track.albumArtistName ?? '',
               )
           ),
         );

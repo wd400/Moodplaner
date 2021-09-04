@@ -38,7 +38,7 @@ class _AccountSettingState extends State<AccountSetting> {
     subtitle:(token!=null) ? Hive.box('configuration').get('mail'):'',
 
     child: Column(children: [ListTile(
-    title: Text(token==null?'Log in':'Log out'),
+    title: Text(token==null?language!.STRING_LOG_IN:language!.STRING_LOG_OUT),
     onTap: () async {
     if (token!=null) {
     storage.write(key: "token", value: null);
@@ -74,7 +74,7 @@ class _AccountSettingState extends State<AccountSetting> {
     }),
 
           ListTile(
-          title: Text('Delete account'),
+          title: Text(language!.STRING_DELETE_ACCOUNT),
           onTap: (){
             if (token==null || token=='') {
 
@@ -88,11 +88,12 @@ class _AccountSettingState extends State<AccountSetting> {
           builder: (
           BuildContext context) {
           return   AlertDialog(
-            title: Text('Are you sure?'),
-            content: Text("All your data stored in the cloud will be permanently deleted"),
+            title: Text(language!.DELETE_ACCOUNT_HEADER),
+
+            content: Text( language!.DELETE_ACCOUNT_WARNING),
             actions: <Widget>[
               TextButton(
-                child: Text("YES"),
+                child: Text( language!.STRING_YES),
                 onPressed: () async {
                   //Put your code here which you want to execute on Yes button click.
                   var res = await get( Uri.parse( '$SERVER_IP/delete'),  headers: {"token": (await storage.read(key: "token"))??''});
@@ -109,7 +110,7 @@ class _AccountSettingState extends State<AccountSetting> {
               ),
 
               TextButton(
-                child: Text("NO"),
+                child: Text( language!.STRING_NO),
                 onPressed: () {
                   //Put your code here which you want to execute on No button click.
                   Navigator.of(context).pop();

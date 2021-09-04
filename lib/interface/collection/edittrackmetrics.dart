@@ -45,10 +45,10 @@ final zoomTrackProvider=ChangeNotifierProvider.autoDispose<ZoomTrack>(
       (context) => ZoomTrack(value: 0.5),
 );
 
-class PaintSettings extends ChangeNotifier {
+class PaintTrackSettings extends ChangeNotifier {
   bool bargraph=false;
 
-  PaintSettings();
+  PaintTrackSettings();
 
   void updatebargraph({required bool value}) {
     this.bargraph = value;
@@ -57,8 +57,8 @@ class PaintSettings extends ChangeNotifier {
 
 }
 
-final paintSettingsProvider=ChangeNotifierProvider.autoDispose<PaintSettings>(
-      (context) => PaintSettings(),
+final paintTrackSettingsProvider=ChangeNotifierProvider.autoDispose<PaintTrackSettings>(
+      (context) => PaintTrackSettings(),
 );
 
 class EditTrackMetrics  extends StatefulWidget{
@@ -117,11 +117,6 @@ class _EditTrackMetricsState extends State<EditTrackMetrics> {
     super.dispose();
 
   }
-
-
-
-
-
 
 
 
@@ -280,7 +275,7 @@ class _EditTrackMetricsState extends State<EditTrackMetrics> {
                                                               ],
 
                                                               onToggle: (index) {
-                                                                context.read(paintSettingsProvider).updatebargraph(value: index==1);
+                                                                context.read(paintTrackSettingsProvider).updatebargraph(value: index==1);
 
                                                               },
                             ),

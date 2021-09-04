@@ -397,8 +397,8 @@ class _CollectionPlaylistState extends State<CollectionPlaylist> {
                     //   backgroundImage: FileImage(
                     //       this.widget.playlist.tracks[index].albumArt),
                     // ),
-                    title: Text(this.widget.playlist.tracks[index].trackName??'Unknown name'),
-                    subtitle: Text(this.widget.playlist.tracks[index].albumArtistName??'Unknown artist'),
+                    title: Text(this.widget.playlist.tracks[index].getName()),
+                    subtitle: Text(this.widget.playlist.tracks[index].albumArtistName??''),
 
                     key: Key('$index'),
                     trailing: IconButton(

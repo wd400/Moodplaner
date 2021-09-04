@@ -11,13 +11,13 @@ class MetricInfo {
 }
 
  Map<String,MetricInfo> METRICS = {
-   'v': MetricInfo(name: "Valence",
-       metricCode: 'v', color: Colors.brown,binf: "Low",bsup: "High"),
+   'v': MetricInfo(name: language!.STRING_VALENCE,
+       metricCode: 'v', color: Colors.brown,binf: language!.STRING_INF_VALENCE ,bsup: language!.STRING_SUP_VALENCE),
 
-   'a': MetricInfo(name: "Arousal",
-       metricCode: 'a', color: Colors.blue,binf: "Negative",bsup: "Positive"),
+   'a': MetricInfo(name: language!.STRING_AROUSAL,
+       metricCode: 'a', color: Colors.blue,binf: language!.STRING_INF_AROUSAL,bsup: language!.STRING_SUP_AROUSAL),
 
-   'bpm':MetricInfo(name: "BPM",
+   'bpm':MetricInfo(name: language!.STRING_BPM,
        metricCode: 'bpm', color: Colors.yellow,binf: "<50",bsup: ">180"),
 
  };
