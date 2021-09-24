@@ -45,7 +45,7 @@ class Track extends MediaType {
   }
 
   String getName(){
-return trackName??basename(filePath!);
+return trackName??(filePath==null?'x':basename(filePath!));
   }
   
   static Track? fromMap(Map<String, dynamic>? trackMap) {

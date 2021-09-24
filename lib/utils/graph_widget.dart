@@ -133,7 +133,7 @@ class _DrawableBoardState extends State<DrawableBoard> {
 
 
     if (context.read(eraseModeProvider).eraser ){
-      if (graph.generator.measures[metricCode]![index] != null &&  (currentPos-graph.generator.measures[metricCode]![index]!).abs()<0.1) {
+      if (graph.generator.measures[metricCode]![index] != null &&  (currentPos-1+graph.generator.measures[metricCode]![index]!).abs()<0.1) {
         graph.updateMetric(metricCode, index,null);
         if (graph.lastActivated==index){
           graph.updateLastActivated();

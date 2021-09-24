@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart';
 import 'package:moodplaner/constants/language.dart';
 import 'package:moodplaner/core/mediatype.dart';
@@ -25,6 +26,9 @@ final NotLoggedsnackBar = SnackBar(content: Text('You are not logged'));
 class _AccountSettingState extends State<AccountSetting> {
   @override
   Widget build(BuildContext context) {
+
+
+
     return FutureBuilder(
         future: storage.read(key: "token"),
         builder: (context, AsyncSnapshot<String?> snapshot) {
@@ -46,7 +50,7 @@ class _AccountSettingState extends State<AccountSetting> {
     await Hive.box<Track>('tracks').clear();
     await Hive.box<Playlist>('playlists').clear();
     await Hive.box<Generator>('generators').clear();
-
+    Hive.box('configuration').put('lastGeneratorSync',null);
     //logout
 
     } else {

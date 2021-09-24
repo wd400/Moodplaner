@@ -320,6 +320,11 @@ class _CollectionPlaylistState extends State<CollectionPlaylist> {
 
   @override
   Widget build(BuildContext context) {
+
+
+    //TODO: fetch infos
+
+
     return Scaffold(
             appBar: AppBar(
               leading: IconButton(

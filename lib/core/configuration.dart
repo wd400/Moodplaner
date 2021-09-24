@@ -29,9 +29,8 @@ abstract class ConfigurationKeys {
 }
 
 
-
  Map<String, dynamic> DEFAULT_CONFIGURATION = {
-  'collectionDirectory': getApplicationDocumentsDirectory(),
+  'collectionDirectory':  '',
   'homeAddress': '',
   'languageRegion': 0,
   'accent': 0,
@@ -67,6 +66,8 @@ class Configuration extends ConfigurationKeys {
     }
       */
     await configuration.read();
+
+    DEFAULT_CONFIGURATION['collectionDirectory']=await getApplicationDocumentsDirectory();
 
     configuration.cacheDirectory = new Directory('/storage/emulated/0/Android/data/com.alexmercerind.harmonoid/files');
   }
@@ -156,8 +157,7 @@ class Configuration extends ConfigurationKeys {
         currentConfiguration.put(key, DEFAULT_CONFIGURATION[key]);
       }
     });
-
-
+    print(currentConfiguration.get('collectionDirectory'));
     this.collectionDirectory = Directory(currentConfiguration.get('collectionDirectory'));
     this.homeAddress = currentConfiguration.get('homeAddress');
     this.languageRegion = LanguageRegion.values[currentConfiguration.get('languageRegion')];

@@ -2,8 +2,8 @@
 import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/all.dart';
 
+import 'package:queue/queue.dart';
 
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
@@ -12,6 +12,8 @@ import 'package:moodplaner/main.dart';
 
 import '../login.dart';
 import 'mediatype.dart';
+
+final queue = Queue(parallel: 2,timeout: Duration(minutes: 5));
 
 final noInternet = SnackBar(content: Text(language!.STRING_NO_INTERNET));
 
@@ -106,7 +108,7 @@ if(res.statusCode == 200) {
 
   for (String trackHash in hashs) {
     Track track = trackBox.get(trackHash)!;
-    await  sendTrackRequest(track);
+    queue.add(()=>sendTrackRequest(track));
   }
 } else {
 //fail
@@ -197,6 +199,7 @@ void syncGenerators()async {
   generators.retainWhere((element) => element.lastModif.isAfter(localLastSync));
 
  // print( generators.map((e)=>e.toJson()).toSet().toString());
+  print(generators.toList());
   var res = await post(
       Uri.parse( '$SERVER_IP/syncgenerators'),
 
